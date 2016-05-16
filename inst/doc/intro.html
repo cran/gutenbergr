@@ -7,11 +7,12 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="author" content="David Robinson" />
 
-<meta name="date" content="2016-05-02" />
+<meta name="date" content="2016-05-16" />
 
 <title>gutenbergr: Search and download public domain texts from Project Gutenberg</title>
 
@@ -19,27 +20,46 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 
-<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%7D%0Apre%20%7B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -47,90 +67,28 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 
 
-<div class="fluid-row" id="header">
 
-
-<h1 class="title">gutenbergr: Search and download public domain texts from Project Gutenberg</h1>
+<h1 class="title toc-ignore">gutenbergr: Search and download public domain texts from Project Gutenberg</h1>
 <h4 class="author"><em>David Robinson</em></h4>
-<h4 class="date"><em>2016-05-02</em></h4>
-
-</div>
+<h4 class="date"><em>2016-05-16</em></h4>
 
 
-<p>The gutenbergr package helps you download and process public domain works from the <a href="https://www.gutenberg.org/">Project Gutenberg</a> collection. This includes both tools for downloading books (and stripping header/footer information), and a complete dataset of Project Gutenberg metadata that can be used to find words of interest.</p>
-<div id="downloading-books-by-id" class="section level3">
-<h3>Downloading books by ID</h3>
-<p>The function <code>gutenberg_download()</code> downloads one or more works from Project Gutenberg based on their ID. For example, the book “Frankenstein; or The Modern Prometheus”, by Mary Wollstonecraft Shelly, has ID 84 (see <a href="https://www.gutenberg.org/ebooks/84">the URL here</a>), so <code>gutenberg_download(84)</code> downloads this text.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(gutenbergr)
 
-frankenstein &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="dv">84</span>)
-
-frankenstein</code></pre>
-<pre><code>## Source: local data frame [7,244 x 2]
-## 
-##    gutenberg_id                                 text
-##           (int)                                (chr)
-## 1            84                        Frankenstein,
-## 2            84                                     
-## 3            84             or the Modern Prometheus
-## 4            84                                     
-## 5            84                                     
-## 6            84                                   by
-## 7            84                                     
-## 8            84 Mary Wollstonecraft (Godwin) Shelley
-## 9            84                                     
-## 10           84                                     
-## ..          ...                                  ...</code></pre>
-<p>Notice it is returned as a tbl_df (a type of data frame), including two variables: <code>gutenberg_id</code> (useful if multiple books are returned), and a character vector of the text, one row per line. Notice that the header and footer added by Project Gutenberg (visible <a href="http://www.gutenberg.org/files/84/84.txt">here</a>) have been stripped away.</p>
-<p>Provide a vector of IDs to download multiple books. For example, to download Dracula (book <a href="https://www.gutenberg.org/ebooks/345">345</a>) along with Frankenstein, do:</p>
-<pre class="sourceCode r"><code class="sourceCode r">frankenstein_dracula &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="kw">c</span>(<span class="dv">84</span>, <span class="dv">345</span>), <span class="dt">meta_fields =</span> <span class="st">&quot;title&quot;</span>)
-
-frankenstein_dracula</code></pre>
-<pre><code>## Source: local data frame [22,812 x 3]
-## 
-##    gutenberg_id                                 text
-##           (int)                                (chr)
-## 1            84                        Frankenstein,
-## 2            84                                     
-## 3            84             or the Modern Prometheus
-## 4            84                                     
-## 5            84                                     
-## 6            84                                   by
-## 7            84                                     
-## 8            84 Mary Wollstonecraft (Godwin) Shelley
-## 9            84                                     
-## 10           84                                     
-## ..          ...                                  ...
-##                                      title
-##                                      (chr)
-## 1  Frankenstein; Or, The Modern Prometheus
-## 2  Frankenstein; Or, The Modern Prometheus
-## 3  Frankenstein; Or, The Modern Prometheus
-## 4  Frankenstein; Or, The Modern Prometheus
-## 5  Frankenstein; Or, The Modern Prometheus
-## 6  Frankenstein; Or, The Modern Prometheus
-## 7  Frankenstein; Or, The Modern Prometheus
-## 8  Frankenstein; Or, The Modern Prometheus
-## 9  Frankenstein; Or, The Modern Prometheus
-## 10 Frankenstein; Or, The Modern Prometheus
-## ..                                     ...</code></pre>
-<p>Notice that the <code>meta_fields</code> argument allows us to add one or more additional fields from the <code>gutenberg_metadata</code> to the downloaded text, such as title or author.</p>
-<pre class="sourceCode r"><code class="sourceCode r">frankenstein_dracula %&gt;%
-<span class="st">  </span><span class="kw">count</span>(title)</code></pre>
-<pre><code>## Source: local data frame [2 x 2]
-## 
-##                                     title     n
-##                                     (chr) (int)
-## 1                                 Dracula 15568
-## 2 Frankenstein; Or, The Modern Prometheus  7244</code></pre>
-</div>
+<p>The gutenbergr package helps you download and process public domain works from the <a href="https://www.gutenberg.org/">Project Gutenberg</a> collection. This includes both tools for downloading books (and stripping header/footer information), and a complete dataset of Project Gutenberg metadata that can be used to find words of interest. Includes:</p>
+<ul>
+<li>A function <code>gutenberg_download()</code> that downloads one or more works from Project Gutenberg by ID: e.g., <code>gutenberg_download(84)</code> downloads the text of Frankenstein.</li>
+<li>Metadata for all Project Gutenberg works as R datasets, so that they can be searched and filtered:</li>
+<li><code>gutenberg_metadata</code> contains information about each work, pairing Gutenberg ID with title, author, language, etc</li>
+<li><code>gutenberg_authors</code> contains information about each author, such as aliases and birth/death year</li>
+<li><code>gutenberg_subjects</code> contains pairings of works with Library of Congress subjects and topics</li>
+</ul>
 <div id="project-gutenberg-metadata" class="section level3">
 <h3>Project Gutenberg Metadata</h3>
 <p>This package contains metadata for all Project Gutenberg works as R datasets, so that you can search and filter for particular works before downloading.</p>
 <p>The dataset <code>gutenberg_metadata</code> contains information about each work, pairing Gutenberg ID with title, author, language, etc:</p>
-<pre class="sourceCode r"><code class="sourceCode r">gutenberg_metadata</code></pre>
-<pre><code>## Source: local data frame [51,877 x 8]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gutenbergr)
+gutenberg_metadata</code></pre></div>
+<pre><code>## Source: local data frame [51,997 x 8]
 ## 
 ##    gutenberg_id
 ##           (int)
@@ -145,36 +103,23 @@ frankenstein_dracula</code></pre>
 ## 9             8
 ## 10            9
 ## ..          ...
-##                                                                                                            title
-##                                                                                                            (chr)
-## 1                                                                                                             NA
-## 2                                                The Declaration of Independence of the United States of America
-## 3       The United States Bill of Rights\r\nThe Ten Original Amendments to the Constitution of the United States
-## 4                                                                            John F. Kennedy's Inaugural Address
-## 5  Lincoln's Gettysburg Address\r\nGiven November 19, 1863 on the battlefield near Gettysburg, Pennsylvania, USA
-## 6                                                                                 The United States Constitution
-## 7                                                                               Give Me Liberty or Give Me Death
-## 8                                                                                          The Mayflower Compact
-## 9                                                                     Abraham Lincoln's Second Inaugural Address
-## 10                                                                     Abraham Lincoln's First Inaugural Address
-## ..                                                                                                           ...
-## Variables not shown: author (chr), gutenberg_author_id (int), language
-##   (chr), gutenberg_bookshelf (chr), rights (chr), has_text (lgl)</code></pre>
+## Variables not shown: title (chr), author (chr), gutenberg_author_id (int),
+##   language (chr), gutenberg_bookshelf (chr), rights (chr), has_text (lgl)</code></pre>
 <p>For example, you could find the Gutenberg ID of Wuthering Heights by doing:</p>
-<pre class="sourceCode r"><code class="sourceCode r">gutenberg_metadata %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(title ==<span class="st"> &quot;Wuthering Heights&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+
+gutenberg_metadata %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(title ==<span class="st"> &quot;Wuthering Heights&quot;</span>)</code></pre></div>
 <pre><code>## Source: local data frame [1 x 8]
 ## 
 ##   gutenberg_id             title        author gutenberg_author_id
 ##          (int)             (chr)         (chr)               (int)
 ## 1          768 Wuthering Heights Brontë, Emily                 405
-##   language                                 gutenberg_bookshelf
-##      (chr)                                               (chr)
-## 1       en Gothic Fiction/Best Books Ever Listings/Movie Books
-## Variables not shown: rights (chr), has_text (lgl)</code></pre>
+## Variables not shown: language (chr), gutenberg_bookshelf (chr), rights
+##   (chr), has_text (lgl)</code></pre>
 <p>In many analyses, you may want to filter just for English works, avoid duplicates, and include only books that have text that can be downloaded. The <code>gutenberg_works()</code> function does this pre-filtering:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gutenberg_works</span>()</code></pre>
-<pre><code>## Source: local data frame [40,278 x 8]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gutenberg_works</span>()</code></pre></div>
+<pre><code>## Source: local data frame [40,737 x 8]
 ## 
 ##    gutenberg_id
 ##           (int)
@@ -189,23 +134,10 @@ frankenstein_dracula</code></pre>
 ## 9             8
 ## 10            9
 ## ..          ...
-##                                                                                                            title
-##                                                                                                            (chr)
-## 1                                                                                                             NA
-## 2                                                The Declaration of Independence of the United States of America
-## 3       The United States Bill of Rights\r\nThe Ten Original Amendments to the Constitution of the United States
-## 4                                                                            John F. Kennedy's Inaugural Address
-## 5  Lincoln's Gettysburg Address\r\nGiven November 19, 1863 on the battlefield near Gettysburg, Pennsylvania, USA
-## 6                                                                                 The United States Constitution
-## 7                                                                               Give Me Liberty or Give Me Death
-## 8                                                                                          The Mayflower Compact
-## 9                                                                     Abraham Lincoln's Second Inaugural Address
-## 10                                                                     Abraham Lincoln's First Inaugural Address
-## ..                                                                                                           ...
-## Variables not shown: author (chr), gutenberg_author_id (int), language
-##   (chr), gutenberg_bookshelf (chr), rights (chr), has_text (lgl)</code></pre>
+## Variables not shown: title (chr), author (chr), gutenberg_author_id (int),
+##   language (chr), gutenberg_bookshelf (chr), rights (chr), has_text (lgl)</code></pre>
 <p>It also allows you to perform filtering as an argument:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gutenberg_works</span>(author ==<span class="st"> &quot;Austen, Jane&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gutenberg_works</span>(author ==<span class="st"> &quot;Austen, Jane&quot;</span>)</code></pre></div>
 <pre><code>## Source: local data frame [10 x 8]
 ## 
 ##    gutenberg_id
@@ -220,84 +152,126 @@ frankenstein_dracula</code></pre>
 ## 8          1342
 ## 9         31100
 ## 10        42078
-##                                                                                                       title
-##                                                                                                       (chr)
-## 1                                                                                                Persuasion
-## 2                                                                                          Northanger Abbey
-## 3                                                                                            Mansfield Park
-## 4                                                                                                      Emma
-## 5                                                                                     Sense and Sensibility
-## 6                                                                                                Lady Susan
-## 7                                                                                 Love and Freindship [sic]
-## 8                                                                                       Pride and Prejudice
-## 9     The Complete Project Gutenberg Works of Jane Austen\nA Linked Index of all PG Editions of Jane Austen
-## 10 The Letters of Jane Austen\r\nSelected from the compilation of her great nephew, Edward, Lord Bradbourne
-##          author
-##           (chr)
-## 1  Austen, Jane
-## 2  Austen, Jane
-## 3  Austen, Jane
-## 4  Austen, Jane
-## 5  Austen, Jane
-## 6  Austen, Jane
-## 7  Austen, Jane
-## 8  Austen, Jane
-## 9  Austen, Jane
-## 10 Austen, Jane
-## Variables not shown: gutenberg_author_id (int), language (chr),
-##   gutenberg_bookshelf (chr), rights (chr), has_text (lgl)</code></pre>
-<div id="other-meta-datasets" class="section level4">
-<h4>Other meta-datasets</h4>
-<p><code>gutenberg_subjects</code> contains pairings of works with Library of Congress subjects and topics. “lcc” means <a href="https://www.loc.gov/catdir/cpso/lcco/">Library of Congress Classification</a>, while “lcsh” means <a href="http://id.loc.gov/authorities/subjects.html">Library of Congress subject headings</a>:</p>
-<pre class="sourceCode r"><code class="sourceCode r">gutenberg_subjects</code></pre>
-<pre><code>## Source: local data frame [139,914 x 3]
+## Variables not shown: title (chr), author (chr), gutenberg_author_id (int),
+##   language (chr), gutenberg_bookshelf (chr), rights (chr), has_text (lgl)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or with a regular expression</span>
+
+<span class="kw">library</span>(stringr)
+<span class="kw">gutenberg_works</span>(<span class="kw">str_detect</span>(author, <span class="st">&quot;Austen&quot;</span>))</code></pre></div>
+<pre><code>## Source: local data frame [13 x 8]
+## 
+##    gutenberg_id
+##           (int)
+## 1           105
+## 2           121
+## 3           141
+## 4           158
+## 5           161
+## 6           946
+## 7          1212
+## 8          1342
+## 9         17797
+## 10        31100
+## 11        33513
+## 12        39897
+## 13        42078
+## Variables not shown: title (chr), author (chr), gutenberg_author_id (int),
+##   language (chr), gutenberg_bookshelf (chr), rights (chr), has_text (lgl)</code></pre>
+<p>The meta-data currently in the package was last updated on <strong>05 May 2016</strong>.</p>
+</div>
+<div id="downloading-books-by-id" class="section level3">
+<h3>Downloading books by ID</h3>
+<p>The function <code>gutenberg_download()</code> downloads one or more works from Project Gutenberg based on their ID. For example, we earlier saw that “Wuthering Heights” has ID 768 (see <a href="https://www.gutenberg.org/ebooks/768">the URL here</a>), so <code>gutenberg_download(768)</code> downloads this text.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wuthering_heights &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="dv">768</span>)
+
+wuthering_heights</code></pre></div>
+<pre><code>## Source: local data frame [12,085 x 2]
+## 
+##    gutenberg_id
+##           (int)
+## 1           768
+## 2           768
+## 3           768
+## 4           768
+## 5           768
+## 6           768
+## 7           768
+## 8           768
+## 9           768
+## 10          768
+## ..          ...
+## Variables not shown: text (chr)</code></pre>
+<p>Notice it is returned as a tbl_df (a type of data frame) including two variables: <code>gutenberg_id</code> (useful if multiple books are returned), and a character vector of the text, one row per line. Notice that the header and footer added by Project Gutenberg (visible <a href="http://www.gutenberg.org/files/768/768.txt">here</a>) have been stripped away.</p>
+<p>Provide a vector of IDs to download multiple books. For example, to download Jane Eyre (book <a href="https://www.gutenberg.org/ebooks/1260">1260</a>) along with Wuthering Heights, do:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">books &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="kw">c</span>(<span class="dv">768</span>, <span class="dv">1260</span>), <span class="dt">meta_fields =</span> <span class="st">&quot;title&quot;</span>)
+
+books</code></pre></div>
+<pre><code>## Source: local data frame [32,744 x 3]
+## 
+##    gutenberg_id
+##           (int)
+## 1           768
+## 2           768
+## 3           768
+## 4           768
+## 5           768
+## 6           768
+## 7           768
+## 8           768
+## 9           768
+## 10          768
+## ..          ...
+## Variables not shown: text (chr), title (chr)</code></pre>
+<p>Notice that the <code>meta_fields</code> argument allows us to add one or more additional fields from the <code>gutenberg_metadata</code> to the downloaded text, such as title or author.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">books %&gt;%
+<span class="st">  </span><span class="kw">count</span>(title)</code></pre></div>
+<pre><code>## Source: local data frame [2 x 2]
+## 
+##                         title     n
+##                         (chr) (int)
+## 1 Jane Eyre: An Autobiography 20659
+## 2           Wuthering Heights 12085</code></pre>
+</div>
+<div id="other-meta-datasets" class="section level3">
+<h3>Other meta-datasets</h3>
+<p>You may want to select books based on information other than their title or author, such as their genre or topic. <code>gutenberg_subjects</code> contains pairings of works with Library of Congress subjects and topics. “lcc” means <a href="https://www.loc.gov/catdir/cpso/lcco/">Library of Congress Classification</a>, while “lcsh” means <a href="http://id.loc.gov/authorities/subjects.html">Library of Congress subject headings</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gutenberg_subjects</code></pre></div>
+<pre><code>## Source: local data frame [140,173 x 3]
 ## 
 ##    gutenberg_id subject_type
 ##           (int)        (chr)
 ## 1             1          lcc
-## 2             1          lcc
+## 2             1         lcsh
 ## 3             1         lcsh
-## 4             1         lcsh
+## 4             1          lcc
 ## 5             2          lcc
 ## 6             2         lcsh
-## 7             2          lcc
-## 8             2         lcsh
-## 9             3          lcc
+## 7             2         lcsh
+## 8             2          lcc
+## 9             3         lcsh
 ## 10            3         lcsh
 ## ..          ...          ...
-##                                                         subject
-##                                                           (chr)
-## 1                                                            JK
-## 2                                                          E201
-## 3                    United States. Declaration of Independence
-## 4  United States -- History -- Revolution, 1775-1783 -- Sources
-## 5                                                            JK
-## 6              United States. Constitution. 1st-10th Amendments
-## 7                                                            KF
-## 8                      Civil rights -- United States -- Sources
-## 9                                                          E838
-## 10              United States -- Foreign relations -- 1961-1963
-## ..                                                          ...</code></pre>
-<p>This is useful for extracting texts from a particular topic or genre, such as horror, or a particular character, such as Sherlock Holmes. The <code>gutenberg_id</code> column can then be used to download these texts or to link with other metadata.</p>
-<pre class="sourceCode r"><code class="sourceCode r">gutenberg_subjects %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(subject ==<span class="st"> &quot;Horror tales&quot;</span>)</code></pre>
-<pre><code>## Source: local data frame [91 x 3]
+## Variables not shown: subject (chr)</code></pre>
+<p>This is useful for extracting texts from a particular topic or genre, such as detective stories, or a particular character, such as Sherlock Holmes. The <code>gutenberg_id</code> column can then be used to download these texts or to link with other metadata.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gutenberg_subjects %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(subject ==<span class="st"> &quot;Detective and mystery stories&quot;</span>)</code></pre></div>
+<pre><code>## Source: local data frame [521 x 3]
 ## 
-##    gutenberg_id subject_type      subject
-##           (int)        (chr)        (chr)
-## 1            42         lcsh Horror tales
-## 2            43         lcsh Horror tales
-## 3            84         lcsh Horror tales
-## 4           175         lcsh Horror tales
-## 5           345         lcsh Horror tales
-## 6           355         lcsh Horror tales
-## 7           389         lcsh Horror tales
-## 8           601         lcsh Horror tales
-## 9           696         lcsh Horror tales
-## 10          792         lcsh Horror tales
-## ..          ...          ...          ...</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">gutenberg_subjects %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(<span class="kw">grepl</span>(<span class="st">&quot;Holmes, Sherlock&quot;</span>, subject))</code></pre>
+##    gutenberg_id subject_type                       subject
+##           (int)        (chr)                         (chr)
+## 1           170         lcsh Detective and mystery stories
+## 2           173         lcsh Detective and mystery stories
+## 3           244         lcsh Detective and mystery stories
+## 4           305         lcsh Detective and mystery stories
+## 5           330         lcsh Detective and mystery stories
+## 6           481         lcsh Detective and mystery stories
+## 7           547         lcsh Detective and mystery stories
+## 8           863         lcsh Detective and mystery stories
+## 9           905         lcsh Detective and mystery stories
+## 10         1155         lcsh Detective and mystery stories
+## ..          ...          ...                           ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gutenberg_subjects %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">grepl</span>(<span class="st">&quot;Holmes, Sherlock&quot;</span>, subject))</code></pre></div>
 <pre><code>## Source: local data frame [47 x 3]
 ## 
 ##    gutenberg_id subject_type
@@ -313,22 +287,10 @@ frankenstein_dracula</code></pre>
 ## 9          2345         lcsh
 ## 10         2346         lcsh
 ## ..          ...          ...
-##                                               subject
-##                                                 (chr)
-## 1  Holmes, Sherlock (Fictitious character) -- Fiction
-## 2  Holmes, Sherlock (Fictitious character) -- Fiction
-## 3  Holmes, Sherlock (Fictitious character) -- Fiction
-## 4  Holmes, Sherlock (Fictitious character) -- Fiction
-## 5  Holmes, Sherlock (Fictitious character) -- Fiction
-## 6  Holmes, Sherlock (Fictitious character) -- Fiction
-## 7  Holmes, Sherlock (Fictitious character) -- Fiction
-## 8  Holmes, Sherlock (Fictitious character) -- Fiction
-## 9  Holmes, Sherlock (Fictitious character) -- Fiction
-## 10 Holmes, Sherlock (Fictitious character) -- Fiction
-## ..                                                ...</code></pre>
+## Variables not shown: subject (chr)</code></pre>
 <p><code>gutenberg_authors</code> contains information about each author, such as aliases and birth/death year:</p>
-<pre class="sourceCode r"><code class="sourceCode r">gutenberg_authors</code></pre>
-<pre><code>## Source: local data frame [16,218 x 7]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gutenberg_authors</code></pre></div>
+<pre><code>## Source: local data frame [16,236 x 7]
 ## 
 ##    gutenberg_author_id                                     author
 ##                  (int)                                      (chr)
@@ -343,67 +305,60 @@ frankenstein_dracula</code></pre>
 ## 9                   12                         Smith, Joseph, Jr.
 ## 10                  14                             Madison, James
 ## ..                 ...                                        ...
-##                                  alias birthdate deathdate
-##                                  (chr)     (int)     (int)
-## 1                                   NA        NA        NA
-## 2                                   NA      1809      1865
-## 3                                   NA      1736      1799
-## 4                                   NA        NA        NA
-## 5            Dodgson, Charles Lutwidge      1832      1898
-## 6                                   NA        NA        NA
-## 7                    Melville, Hermann      1819      1891
-## 8                Barrie, James Matthew      1860      1937
-## 9                        Smith, Joseph      1805      1844
-## 10 United States President (1809-1817)      1751      1836
-## ..                                 ...       ...       ...
-## Variables not shown: wikipedia (chr), aliases (chr)</code></pre>
-</div>
+## Variables not shown: alias (chr), birthdate (int), deathdate (int),
+##   wikipedia (chr), aliases (chr)</code></pre>
 </div>
 <div id="analysis" class="section level3">
 <h3>Analysis</h3>
 <p>What’s next after retrieving a book’s text? Well, having the book as a data frame is especially useful for working with the <a href="https://github.com/juliasilge/tidytext">tidytext</a> package for text analysis.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidytext)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidytext)
 
-words &lt;-<span class="st"> </span>frankenstein_dracula %&gt;%
+words &lt;-<span class="st"> </span>books %&gt;%
 <span class="st">  </span><span class="kw">unnest_tokens</span>(word, text)
 
-words</code></pre>
-<pre><code>## Source: local data frame [237,752 x 3]
+words</code></pre></div>
+<pre><code>## Source: local data frame [305,532 x 3]
 ## 
-##    gutenberg_id                                   title           word
-##           (int)                                   (chr)          (chr)
-## 1            84 Frankenstein; Or, The Modern Prometheus   frankenstein
-## 2            84 Frankenstein; Or, The Modern Prometheus             or
-## 3            84 Frankenstein; Or, The Modern Prometheus            the
-## 4            84 Frankenstein; Or, The Modern Prometheus         modern
-## 5            84 Frankenstein; Or, The Modern Prometheus     prometheus
-## 6            84 Frankenstein; Or, The Modern Prometheus             by
-## 7            84 Frankenstein; Or, The Modern Prometheus           mary
-## 8            84 Frankenstein; Or, The Modern Prometheus wollstonecraft
-## 9            84 Frankenstein; Or, The Modern Prometheus         godwin
-## 10           84 Frankenstein; Or, The Modern Prometheus        shelley
-## ..          ...                                     ...            ...</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">word_counts &lt;-<span class="st"> </span>words %&gt;%
+##    gutenberg_id             title      word
+##           (int)             (chr)     (chr)
+## 1           768 Wuthering Heights wuthering
+## 2           768 Wuthering Heights   heights
+## 3           768 Wuthering Heights   chapter
+## 4           768 Wuthering Heights         i
+## 5           768 Wuthering Heights      1801
+## 6           768 Wuthering Heights         i
+## 7           768 Wuthering Heights      have
+## 8           768 Wuthering Heights      just
+## 9           768 Wuthering Heights  returned
+## 10          768 Wuthering Heights      from
+## ..          ...               ...       ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">word_counts &lt;-<span class="st"> </span>words %&gt;%
 <span class="st">  </span><span class="kw">anti_join</span>(stop_words, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">count</span>(title, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>)
 
-word_counts</code></pre>
-<pre><code>## Source: local data frame [15,638 x 3]
+word_counts</code></pre></div>
+<pre><code>## Source: local data frame [21,201 x 3]
 ## Groups: title [2]
 ## 
-##      title    word     n
-##      (chr)   (chr) (int)
-## 1  Dracula    time   390
-## 2  Dracula     van   323
-## 3  Dracula   night   310
-## 4  Dracula helsing   301
-## 5  Dracula    dear   224
-## 6  Dracula    lucy   223
-## 7  Dracula     day   220
-## 8  Dracula    hand   210
-## 9  Dracula    mina   210
-## 10 Dracula    door   200
-## ..     ...     ...   ...</code></pre>
+##                          title      word     n
+##                          (chr)     (chr) (int)
+## 1  Jane Eyre: An Autobiography      jane   342
+## 2  Jane Eyre: An Autobiography rochester   317
+## 3  Jane Eyre: An Autobiography       sir   315
+## 4  Jane Eyre: An Autobiography      miss   310
+## 5  Jane Eyre: An Autobiography      time   244
+## 6  Jane Eyre: An Autobiography       day   232
+## 7  Jane Eyre: An Autobiography    looked   221
+## 8  Jane Eyre: An Autobiography     night   217
+## 9  Jane Eyre: An Autobiography      eyes   187
+## 10 Jane Eyre: An Autobiography      john   184
+## ..                         ...       ...   ...</code></pre>
+<p>You may also find these resources useful:</p>
+<ul>
+<li>The <a href="https://cran.r-project.org/web/views/NaturalLanguageProcessing.html">Natural Language Processing CRAN View</a> suggests many R packages related to text mining, especially around the <a href="https://cran.r-project.org/package=tm">tm package</a></li>
+<li>You could match the <code>wikipedia</code> column in <code>gutenberg_author</code> to Wikipedia content with the <a href="https://cran.r-project.org/package=WikipediR">WikipediR</a> package or to pageview statistics with the <a href="https://cran.r-project.org/package=wikipediatrend">wikipediatrend</a> package</li>
+<li>If you’re considering an analysis based on author name, you may find the <a href="https://cran.r-project.org/package=humaniformat">humaniformat</a> (for extraction of first names) and <a href="https://cran.r-project.org/package=gender">gender</a> (prediction of gender from first names) packages useful. (Note that humaniformat has a <code>format_reverse</code> function for reversing “Last, First” names).</li>
+</ul>
 </div>
 
 

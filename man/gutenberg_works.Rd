@@ -5,29 +5,43 @@
 \title{Get a filtered table of Gutenberg work metadata}
 \usage{
 gutenberg_works(..., languages = "en", only_text = TRUE,
-  rights = c("Public domain in the USA.", "None"), distinct = TRUE)
+  rights = c("Public domain in the USA.", "None"), distinct = TRUE,
+  all_languages = FALSE, only_languages = TRUE)
 }
 \arguments{
 \item{...}{Additional filters, given as expressions using the variables
 in the \link{gutenberg_metadata} dataset (e.g. \code{author == "Austen, Jane"})}
 
-\item{languages}{Vector of languages to include (note that it will not
-return cases with multiple languages unless they are specified)}
+\item{languages}{Vector of languages to include}
 
 \item{only_text}{Whether the works must have Gutenberg text attached. Works
 without text (e.g. audiobooks) cannot be downloaded with
-\code{\link{gutenberg_download}}.}
+\code{\link{gutenberg_download}}}
 
 \item{rights}{Values to allow in the \code{rights} field. By default allows
-public domain in the US or "None", while excluding works under copyright.}
+public domain in the US or "None", while excluding works under copyright.
+NULL allows any value of Rights}
 
 \item{distinct}{Whether to return only one distinct combination of each
 title and gutenberg_author_id. If multiple occur (that fulfill the other
-conditions), it uses the one with the lowest ID.}
+conditions), it uses the one with the lowest ID}
+
+\item{all_languages}{Whether, if multiple languages are given, all of them
+need to be present in a work. For example, if \code{c("en", "fr")} are given,
+whether only \code{en/fr} as opposed to English or French works should be
+returned}
+
+\item{only_languages}{Whether to exclude works that have other languages
+besides the ones provided. For example, whether to include \code{en/fr}
+when English works are requested}
+}
+\value{
+A tbl_df (see the tibble or dplyr packages) with one row for
+each work, in the same format as \link{gutenberg_metadata}.
 }
 \description{
 Get a table of Gutenberg work metadata that has been filtered by some common
-(settable) defaults, along with the option to add additional filters
+(settable) defaults, along with the option to add additional filters.
 This function is for convenience when working with common conditions
 when pulling a set of books to analyze.
 For more detailed filtering of the entire Project Gutenberg
@@ -45,14 +59,26 @@ By default, returns
 }
 \examples{
 
+library(dplyr)
+
 gutenberg_works()
 
 # filter conditions
 gutenberg_works(author == "Shakespeare, William")
 
-# changing default options
-gutenberg_works(rights = NULL)
-gutenberg_works(languages = "de")
+# language specifications
+
+gutenberg_works(languages = "es") \%>\%
+  count(language, sort = TRUE)
+
+gutenberg_works(languages = c("en", "es")) \%>\%
+  count(language, sort = TRUE)
+
+gutenberg_works(languages = c("en", "es"), all_languages = TRUE) \%>\%
+  count(language, sort = TRUE)
+
+gutenberg_works(languages = c("en", "es"), only_languages = FALSE) \%>\%
+  count(language, sort = TRUE)
 
 }
 

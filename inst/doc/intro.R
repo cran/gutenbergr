@@ -1,24 +1,13 @@
-## ----frankenstein--------------------------------------------------------
-library(dplyr)
+## ----echo = FALSE--------------------------------------------------------
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+## ------------------------------------------------------------------------
 library(gutenbergr)
-
-frankenstein <- gutenberg_download(84)
-
-frankenstein
-
-## ----frankenstein_dracula------------------------------------------------
-frankenstein_dracula <- gutenberg_download(c(84, 345), meta_fields = "title")
-
-frankenstein_dracula
-
-## ------------------------------------------------------------------------
-frankenstein_dracula %>%
-  count(title)
-
-## ------------------------------------------------------------------------
 gutenberg_metadata
 
 ## ------------------------------------------------------------------------
+library(dplyr)
+
 gutenberg_metadata %>%
   filter(title == "Wuthering Heights")
 
@@ -28,12 +17,31 @@ gutenberg_works()
 ## ------------------------------------------------------------------------
 gutenberg_works(author == "Austen, Jane")
 
+# or with a regular expression
+
+library(stringr)
+gutenberg_works(str_detect(author, "Austen"))
+
+## ------------------------------------------------------------------------
+wuthering_heights <- gutenberg_download(768)
+
+wuthering_heights
+
+## ------------------------------------------------------------------------
+books <- gutenberg_download(c(768, 1260), meta_fields = "title")
+
+books
+
+## ------------------------------------------------------------------------
+books %>%
+  count(title)
+
 ## ------------------------------------------------------------------------
 gutenberg_subjects
 
 ## ------------------------------------------------------------------------
 gutenberg_subjects %>%
-  filter(subject == "Horror tales")
+  filter(subject == "Detective and mystery stories")
 
 gutenberg_subjects %>%
   filter(grepl("Holmes, Sherlock", subject))
@@ -44,7 +52,7 @@ gutenberg_authors
 ## ------------------------------------------------------------------------
 library(tidytext)
 
-words <- frankenstein_dracula %>%
+words <- books %>%
   unnest_tokens(word, text)
 
 words

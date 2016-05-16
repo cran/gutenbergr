@@ -4,7 +4,7 @@
 \name{gutenberg_metadata}
 \alias{gutenberg_metadata}
 \title{Gutenberg metadata about each work}
-\format{A tbl_df with one row for each work in Project Gutenberg
+\format{A tbl_df (see tibble or dplyr) with one row for each work in Project Gutenberg
 and the following columns:
 \describe{
   \item{gutenberg_id}{Numeric ID, used to retrieve works from
@@ -13,12 +13,14 @@ and the following columns:
   \item{author}{Author, if a single one given. Given as last name
   first (e.g. "Doyle, Arthur Conan")}
   \item{author_id}{Project Gutenberg author ID}
-  \item{language}{Language code, separated by / if multiple}
+  \item{language}{Language ISO 639 code, separated by / if multiple. Two
+  letter code if one exists, otherwise three letter. See
+  \url{https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes}}
   \item{gutenberg_bookshelf}{Which collection or collections this
   is found in, separated by / if multiple}
   \item{rights}{Generally one of three options: "Public domain in the USA."
   (the most common by far), "Copyrighted. Read the copyright notice inside this book
-  for details.", or "None".}
+  for details.", or "None"}
   \item{has_text}{Whether there is a file containing digits followed by
   \code{.txt} in Project Gutenberg for this record (as opposed to, for
   example, audiobooks). If not, cannot be retrieved with
@@ -31,6 +33,10 @@ gutenberg_metadata
 Selected fields of metadata about each of the Project Gutenberg
 works. These were collected using the gitenberg Python package,
 particularly the \code{pg_rdf_to_json} function.
+}
+\details{
+To find the date on which this metadata was last updated,
+run \code{attr(gutenberg_metadata, "date_updated")}.
 }
 \examples{
 
@@ -55,14 +61,19 @@ shakespeare_metadata <- gutenberg_metadata \%>\%
 shakespeare_works <- gutenberg_download(shakespeare_metadata$gutenberg_id)
 }
 
-# note that gutenberg_works() function is a shortcut to some of the above
+# note that the gutenberg_works() function filters for English
+# non-copyrighted works and does de-duplication by default:
 
 shakespeare_metadata2 <- gutenberg_works(author == "Shakespeare, William",
                                          !str_detect(title, "Works"))
 
+# date last updated
+attr(gutenberg_metadata, "date_updated")
+
 }
 \seealso{
-\link{gutenberg_works}, \link{gutenberg_authors}, \link{gutenberg_subjects}
+\link{gutenberg_works}, \link{gutenberg_authors},
+\link{gutenberg_subjects}
 }
 \keyword{datasets}
 
