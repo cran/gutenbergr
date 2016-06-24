@@ -1,10 +1,10 @@
-1a2ee1d4acdcf9eb0a38d72c8efca65e *DESCRIPTION
+2c04610b2444bf810789322e647f64f8 *DESCRIPTION
 b2732b2bf1e6e948b9980eed025718c9 *NAMESPACE
-015ae3d7e9fb113a2803cafcda02226c *NEWS.md
+a531b48de93135e121a9d320b8a61b6f *NEWS.md
 5ff90b9a36fca2882a95b18832eb559a *R/data.R
 7e8381344c45dfaf3bac32b0f37db130 *R/globals.R
-cbe6c1bd213de6536d6622a25b1563d5 *R/gutenberg_download.R
-0fa365ac240dfca58d8dcbf18353632e *R/gutenberg_works.R
+2c8ddc63bf4679f5c01fa46dc00de539 *R/gutenberg_download.R
+17e82003cc647dd8067c20b474774cf7 *R/gutenberg_works.R
 92dab1f6bd815102d3582f7235413b98 *R/utils.R
 56a95d892f14f8c013254593415fac24 *README.md
 6665e0648292f3a6db67e7b45fae4a4e *build/vignette.rds
@@ -14,7 +14,7 @@ fe8ab33d8627d61c86d6b00387e85921 *data/gutenberg_metadata.rda
 8c14950ad398efa195678da07a7f523e *data/gutenberg_subjects.rda
 be5a68a3c2720fa60c96da44eb4ca21c *inst/doc/intro.R
 ba559a97fab486c9f1db340d45662151 *inst/doc/intro.Rmd
-2ef356d9b6bc0a965ea1a259c0ffaa83 *inst/doc/intro.html
+a2311f30cb049a4827bc83581de1f127 *inst/doc/intro.html
 99bb59f6ef7f643cf86ece43fdca758e *man/gutenberg_authors.Rd
 4c61d0755b73e31fb7afda64dfcbb88b *man/gutenberg_download.Rd
 928deb13f1c553446aabc62c4bc290dc *man/gutenberg_get_mirror.Rd
@@ -24,7 +24,7 @@ c4dd2a849d811f7f803bf1dbeeced9db *man/gutenberg_subjects.Rd
 f40e31c0a19c4adffb8abe4b4ce79250 *man/gutenberg_works.Rd
 3dcbcae1d9ece85395c7df0df81a413b *man/read_zip_url.Rd
 416bc9b95052b320ce95f8dc1363d50c *tests/testthat.R
-b6ecc6b48cc89dbc54706f5756548d10 *tests/testthat/test-download.R
+5240a30a6005b5940cb99e4f8a52ad6c *tests/testthat/test-download.R
 c733afa3346fc6678bcbff051af32df1 *tests/testthat/test-metadata.R
 aabe2ff91c544eef4649653f8a418a62 *tests/testthat/test-utils.R
 ba559a97fab486c9f1db340d45662151 *vignettes/intro.Rmd
