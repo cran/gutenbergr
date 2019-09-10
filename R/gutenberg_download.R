@@ -109,13 +109,13 @@ gutenberg_download <- function(gutenberg_id, mirror = NULL, strip = TRUE,
   ret <- full_url %>%
     purrr::map(try_download) %>%
     purrr::discard(is.null) %>%
-    purrr::map_df(~data_frame(text = .), .id = "gutenberg_id") %>%
+    purrr::map_df(~tibble(text = .), .id = "gutenberg_id") %>%
     mutate(gutenberg_id = as.integer(gutenberg_id))
 
   if (strip) {
     ret <- ret %>%
       group_by(gutenberg_id) %>%
-      do(data_frame(text = gutenberg_strip(.$text, ...))) %>%
+      do(tibble(text = gutenberg_strip(.$text, ...))) %>%
       ungroup()
   }
 
@@ -172,7 +172,7 @@ gutenberg_strip <- function(text) {
   text <- discard_start_while(text, text == "")
 
   # also paragraphs at the start that are meta-data
-  start_paragraph_regex <- "(produced by|prepared by|transcribed from|project gutenberg|^note: )"
+  start_paragraph_regex <- "(produced by|prepared by|transcribed from|project gutenberg|^special thanks|^note: )"
   while (length(text) > 0 &&
          stringr::str_detect(stringr::str_to_lower(text[1]), start_paragraph_regex)) {
     # get rid of that paragraph, then the following whitespace
