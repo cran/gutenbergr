@@ -4,7 +4,8 @@
 \name{gutenberg_subjects}
 \alias{gutenberg_subjects}
 \title{Gutenberg metadata about the subject of each work}
-\format{A tbl_df (see tibble or dplyr) with one row for each pairing
+\format{
+A tbl_df (see tibble or dplyr) with one row for each pairing
 of work and subject, with columns:
 \describe{
   \item{gutenberg_id}{ID describing a work that can be joined with
@@ -12,7 +13,8 @@ of work and subject, with columns:
   \item{subject_type}{Either "lcc" (Library of Congress Classification) or
   "lcsh" (Library of Congress Subject Headings)}
   \item{subject}{Subject}
-}}
+}
+}
 \usage{
 gutenberg_subjects
 }
@@ -25,7 +27,7 @@ Subject Headings (lcsh).
 Find more information about Library of Congress Categories
 here: \url{https://www.loc.gov/catdir/cpso/lcco/}, and about
 Library of Congress Subject Headings here:
-\url{http://id.loc.gov/authorities/subjects.html}.
+\url{https://id.loc.gov/authorities/subjects.html}.
 
 To find the date on which this metadata was last updated,
 run \code{attr(gutenberg_subjects, "date_updated")}.

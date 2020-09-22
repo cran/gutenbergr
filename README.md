@@ -20,7 +20,6 @@ gutenbergr: R package to search and download public domain texts from Project Gu
 [![Coverage Status](https://img.shields.io/codecov/c/github/ropensci/gutenbergr/master.svg)](https://codecov.io/github/ropensci/gutenbergr?branch=master)
 [![rOpenSci peer-review](https://badges.ropensci.org/41_status.svg)](https://github.com/ropensci/software-review/issues/41)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![CRAN checks](https://cranchecks.info/badges/summary/gutenbergr)](https://cran.r-project.org/web/checks/check_results_gutenbergr.html)
 <!-- badges: end -->
 
 Download and process public domain works from the [Project Gutenberg](https://www.gutenberg.org/) collection. Includes
@@ -40,7 +39,7 @@ Install the package with:
 install.packages("gutenbergr")
 ```
 
-Or install the development version using [devtools](https://github.com/hadley/devtools) with:
+Or install the development version using [devtools](https://github.com/r-lib/devtools) with:
 
 
 ```r
@@ -88,18 +87,18 @@ Since we see that it has `gutenberg_id` 768, we can download it with the `gutenb
 wuthering_heights <- gutenberg_download(768)
 wuthering_heights
 #> # A tibble: 12,085 x 2
-#>    gutenberg_id text                                                                   
-#>           <int> <chr>                                                                  
-#>  1          768 WUTHERING HEIGHTS                                                      
-#>  2          768 ""                                                                     
-#>  3          768 ""                                                                     
-#>  4          768 CHAPTER I                                                              
-#>  5          768 ""                                                                     
-#>  6          768 ""                                                                     
-#>  7          768 1801.--I have just returned from a visit to my landlord--the solitary  
-#>  8          768 neighbour that I shall be troubled with.  This is certainly a beautiful
-#>  9          768 country!  In all England, I do not believe that I could have fixed on a
-#> 10          768 situation so completely removed from the stir of society.  A perfect   
+#>    gutenberg_id text                                                                     
+#>           <int> <chr>                                                                    
+#>  1          768 "WUTHERING HEIGHTS"                                                      
+#>  2          768 ""                                                                       
+#>  3          768 ""                                                                       
+#>  4          768 "CHAPTER I"                                                              
+#>  5          768 ""                                                                       
+#>  6          768 ""                                                                       
+#>  7          768 "1801.--I have just returned from a visit to my landlord--the solitary"  
+#>  8          768 "neighbour that I shall be troubled with.  This is certainly a beautiful"
+#>  9          768 "country!  In all England, I do not believe that I could have fixed on a"
+#> 10          768 "situation so completely removed from the stir of society.  A perfect"   
 #> # … with 12,075 more rows
 ```
 
@@ -111,18 +110,18 @@ wuthering_heights
 books <- gutenberg_download(c(768, 1260), meta_fields = "title")
 books
 #> # A tibble: 32,744 x 3
-#>    gutenberg_id text                                                                   
-#>           <int> <chr>                                                                  
-#>  1          768 WUTHERING HEIGHTS                                                      
-#>  2          768 ""                                                                     
-#>  3          768 ""                                                                     
-#>  4          768 CHAPTER I                                                              
-#>  5          768 ""                                                                     
-#>  6          768 ""                                                                     
-#>  7          768 1801.--I have just returned from a visit to my landlord--the solitary  
-#>  8          768 neighbour that I shall be troubled with.  This is certainly a beautiful
-#>  9          768 country!  In all England, I do not believe that I could have fixed on a
-#> 10          768 situation so completely removed from the stir of society.  A perfect   
+#>    gutenberg_id text                                                                     
+#>           <int> <chr>                                                                    
+#>  1          768 "WUTHERING HEIGHTS"                                                      
+#>  2          768 ""                                                                       
+#>  3          768 ""                                                                       
+#>  4          768 "CHAPTER I"                                                              
+#>  5          768 ""                                                                       
+#>  6          768 ""                                                                       
+#>  7          768 "1801.--I have just returned from a visit to my landlord--the solitary"  
+#>  8          768 "neighbour that I shall be troubled with.  This is certainly a beautiful"
+#>  9          768 "country!  In all England, I do not believe that I could have fixed on a"
+#> 10          768 "situation so completely removed from the stir of society.  A perfect"   
 #>    title            
 #>    <chr>            
 #>  1 Wuthering Heights
@@ -155,18 +154,18 @@ aristotle_books <- gutenberg_works(author == "Aristotle") %>%
 
 aristotle_books
 #> # A tibble: 39,950 x 3
-#>    gutenberg_id text                                                                  
-#>           <int> <chr>                                                                 
-#>  1         1974 THE POETICS OF ARISTOTLE                                              
-#>  2         1974 ""                                                                    
-#>  3         1974 By Aristotle                                                          
-#>  4         1974 ""                                                                    
-#>  5         1974 A Translation By S. H. Butcher                                        
-#>  6         1974 ""                                                                    
-#>  7         1974 ""                                                                    
-#>  8         1974 [Transcriber's Annotations and Conventions: the translator left       
-#>  9         1974 intact some Greek words to illustrate a specific point of the original
-#> 10         1974 discourse. In this transcription, in order to retain the accuracy of  
+#>    gutenberg_id text                                                                    
+#>           <int> <chr>                                                                   
+#>  1         1974 "THE POETICS OF ARISTOTLE"                                              
+#>  2         1974 ""                                                                      
+#>  3         1974 "By Aristotle"                                                          
+#>  4         1974 ""                                                                      
+#>  5         1974 "A Translation By S. H. Butcher"                                        
+#>  6         1974 ""                                                                      
+#>  7         1974 ""                                                                      
+#>  8         1974 "[Transcriber's Annotations and Conventions: the translator left"       
+#>  9         1974 "intact some Greek words to illustrate a specific point of the original"
+#> 10         1974 "discourse. In this transcription, in order to retain the accuracy of"  
 #>    title                   
 #>    <chr>                   
 #>  1 The Poetics of Aristotle
@@ -193,20 +192,20 @@ aristotle_books
 
 #### How were the metadata R files generated?
 
-See the [data-raw](https://github.com/ropensci/gutenbergr/tree/master/data-raw) directory for the scripts that generate these datasets. As of now, these were generated from [the Project Gutenberg catalog](https://www.gutenberg.org/wiki/Gutenberg:Feeds#The_Complete_Project_Gutenberg_Catalog) on **05 May 2016**.
+See the [data-raw](https://github.com/ropensci/gutenbergr/tree/master/data-raw) directory for the scripts that generate these datasets. As of now, these were generated from [the Project Gutenberg catalog](https://www.gutenberg.org/ebooks/offline_catalogs.html) on **05 May 2016**.
 
 #### Do you respect the rules regarding robot access to Project Gutenberg?
 
-Yes! The package respects [these rules](https://www.gutenberg.org/wiki/Gutenberg:Information_About_Robot_Access_to_our_Pages) and complies to the best of our ability. Namely:
+Yes! The package respects [these rules](https://www.gutenberg.org/policy/robot_access.html) and complies to the best of our ability. Namely:
 
 * Project Gutenberg allows wget to harvest Project Gutenberg using [this list of links](http://www.gutenberg.org/robot/harvest?filetypes[]=html). The gutenbergr package visits that page once to find the recommended mirror for the user's location.
 * We retrieve the book text directly from that mirror using links in the same format. For example, Frankenstein (book 84) is retrieved from `http://www.gutenberg.lib.md.us/8/84/84.zip`.
 * We retrieve the .zip file rather than txt to minimize bandwidth on the mirror.
 
-Still, this package is *not* the right way to download the entire Project Gutenberg corpus (or all from a particular language). For that, follow [their recommendation](https://www.gutenberg.org/wiki/Gutenberg:Information_About_Robot_Access_to_our_Pages) to use wget or set up a mirror. This package is recommended for downloading a single work, or works for a particular author or topic.
+Still, this package is *not* the right way to download the entire Project Gutenberg corpus (or all from a particular language). For that, follow [their recommendation](https://www.gutenberg.org/policy/robot_access.html) to use wget or set up a mirror. This package is recommended for downloading a single work, or works for a particular author or topic.
 
 ### Code of Conduct
 
 This project is released with a [Contributor Code of Conduct](https://github.com/ropensci/gutenbergr/blob/master/CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-[![ropensci\_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![ropensci\_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org/)
