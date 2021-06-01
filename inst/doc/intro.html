@@ -12,43 +12,82 @@
 
 <meta name="author" content="David Robinson" />
 
-<meta name="date" content="2020-09-21" />
+<meta name="date" content="2021-05-28" />
 
 <title>gutenbergr: Search and download public domain texts from Project Gutenberg</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
 });
 </script>
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
+document.addEventListener('DOMContentLoaded', function() {
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -68,7 +107,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -319,7 +358,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">gutenbergr: Search and download public domain texts from Project Gutenberg</h1>
 <h4 class="author">David Robinson</h4>
-<h4 class="date">2020-09-21</h4>
+<h4 class="date">2021-05-28</h4>
 
 
 
@@ -337,96 +376,96 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h3>Project Gutenberg Metadata</h3>
 <p>This package contains metadata for all Project Gutenberg works as R datasets, so that you can search and filter for particular works before downloading.</p>
 <p>The dataset <code>gutenberg_metadata</code> contains information about each work, pairing Gutenberg ID with title, author, language, etc:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(gutenbergr)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>gutenberg_metadata</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gutenbergr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>gutenberg_metadata</span></code></pre></div>
 <pre><code>## # A tibble: 51,997 x 8
-##    gutenberg_id title author gutenberg_autho… language gutenberg_books… rights
-##           &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
-##  1            0  &lt;NA&gt; &lt;NA&gt;                 NA en       &lt;NA&gt;             Publi…
-##  2            1 &quot;The… Jeffe…             1638 en       United States L… Publi…
-##  3            2 &quot;The… Unite…                1 en       American Revolu… Publi…
-##  4            3 &quot;Joh… Kenne…             1666 en       &lt;NA&gt;             Publi…
-##  5            4 &quot;Lin… Linco…                3 en       US Civil War     Publi…
-##  6            5 &quot;The… Unite…                1 en       American Revolu… Publi…
-##  7            6 &quot;Giv… Henry…                4 en       American Revolu… Publi…
-##  8            7 &quot;The… &lt;NA&gt;                 NA en       &lt;NA&gt;             Publi…
-##  9            8 &quot;Abr… Linco…                3 en       US Civil War     Publi…
-## 10            9 &quot;Abr… Linco…                3 en       US Civil War     Publi…
+##    gutenberg_id title  author  gutenberg_autho… language gutenberg_books… rights
+##           &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
+##  1            0  &lt;NA&gt;  &lt;NA&gt;                  NA en       &lt;NA&gt;             Publi…
+##  2            1 &quot;The … Jeffer…             1638 en       United States L… Publi…
+##  3            2 &quot;The … United…                1 en       American Revolu… Publi…
+##  4            3 &quot;John… Kenned…             1666 en       &lt;NA&gt;             Publi…
+##  5            4 &quot;Linc… Lincol…                3 en       US Civil War     Publi…
+##  6            5 &quot;The … United…                1 en       American Revolu… Publi…
+##  7            6 &quot;Give… Henry,…                4 en       American Revolu… Publi…
+##  8            7 &quot;The … &lt;NA&gt;                  NA en       &lt;NA&gt;             Publi…
+##  9            8 &quot;Abra… Lincol…                3 en       US Civil War     Publi…
+## 10            9 &quot;Abra… Lincol…                3 en       US Civil War     Publi…
 ## # … with 51,987 more rows, and 1 more variable: has_text &lt;lgl&gt;</code></pre>
 <p>For example, you could find the Gutenberg ID of Wuthering Heights by doing:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>gutenberg_metadata <span class="op">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">filter</span>(title <span class="op">==</span><span class="st"> &quot;Wuthering Heights&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gutenberg_metadata <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(title <span class="sc">==</span> <span class="st">&quot;Wuthering Heights&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 8
-##   gutenberg_id title author gutenberg_autho… language gutenberg_books… rights
-##          &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
-## 1          768 Wuth… Bront…              405 en       Gothic Fiction/… Publi…
+##   gutenberg_id title  author  gutenberg_autho… language gutenberg_booksh… rights
+##          &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt; 
+## 1          768 Wuthe… Brontë…              405 en       Gothic Fiction/M… Publi…
 ## # … with 1 more variable: has_text &lt;lgl&gt;</code></pre>
 <p>In many analyses, you may want to filter just for English works, avoid duplicates, and include only books that have text that can be downloaded. The <code>gutenberg_works()</code> function does this pre-filtering:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">gutenberg_works</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gutenberg_works</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 40,737 x 8
-##    gutenberg_id title author gutenberg_autho… language gutenberg_books… rights
-##           &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
-##  1            0  &lt;NA&gt; &lt;NA&gt;                 NA en       &lt;NA&gt;             Publi…
-##  2            1 &quot;The… Jeffe…             1638 en       United States L… Publi…
-##  3            2 &quot;The… Unite…                1 en       American Revolu… Publi…
-##  4            3 &quot;Joh… Kenne…             1666 en       &lt;NA&gt;             Publi…
-##  5            4 &quot;Lin… Linco…                3 en       US Civil War     Publi…
-##  6            5 &quot;The… Unite…                1 en       American Revolu… Publi…
-##  7            6 &quot;Giv… Henry…                4 en       American Revolu… Publi…
-##  8            7 &quot;The… &lt;NA&gt;                 NA en       &lt;NA&gt;             Publi…
-##  9            8 &quot;Abr… Linco…                3 en       US Civil War     Publi…
-## 10            9 &quot;Abr… Linco…                3 en       US Civil War     Publi…
+##    gutenberg_id title  author  gutenberg_autho… language gutenberg_books… rights
+##           &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
+##  1            0  &lt;NA&gt;  &lt;NA&gt;                  NA en       &lt;NA&gt;             Publi…
+##  2            1 &quot;The … Jeffer…             1638 en       United States L… Publi…
+##  3            2 &quot;The … United…                1 en       American Revolu… Publi…
+##  4            3 &quot;John… Kenned…             1666 en       &lt;NA&gt;             Publi…
+##  5            4 &quot;Linc… Lincol…                3 en       US Civil War     Publi…
+##  6            5 &quot;The … United…                1 en       American Revolu… Publi…
+##  7            6 &quot;Give… Henry,…                4 en       American Revolu… Publi…
+##  8            7 &quot;The … &lt;NA&gt;                  NA en       &lt;NA&gt;             Publi…
+##  9            8 &quot;Abra… Lincol…                3 en       US Civil War     Publi…
+## 10            9 &quot;Abra… Lincol…                3 en       US Civil War     Publi…
 ## # … with 40,727 more rows, and 1 more variable: has_text &lt;lgl&gt;</code></pre>
 <p>It also allows you to perform filtering as an argument:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">gutenberg_works</span>(author <span class="op">==</span><span class="st"> &quot;Austen, Jane&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gutenberg_works</span>(author <span class="sc">==</span> <span class="st">&quot;Austen, Jane&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 8
-##    gutenberg_id title author gutenberg_autho… language gutenberg_books… rights
-##           &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
-##  1          105 &quot;Per… Auste…               68 en       &lt;NA&gt;             Publi…
-##  2          121 &quot;Nor… Auste…               68 en       Gothic Fiction   Publi…
-##  3          141 &quot;Man… Auste…               68 en       &lt;NA&gt;             Publi…
-##  4          158 &quot;Emm… Auste…               68 en       &lt;NA&gt;             Publi…
-##  5          161 &quot;Sen… Auste…               68 en       &lt;NA&gt;             Publi…
-##  6          946 &quot;Lad… Auste…               68 en       &lt;NA&gt;             Publi…
-##  7         1212 &quot;Lov… Auste…               68 en       &lt;NA&gt;             Publi…
-##  8         1342 &quot;Pri… Auste…               68 en       Best Books Ever… Publi…
-##  9        31100 &quot;The… Auste…               68 en       &lt;NA&gt;             Publi…
-## 10        42078 &quot;The… Auste…               68 en       &lt;NA&gt;             Publi…
+##    gutenberg_id title   author gutenberg_autho… language gutenberg_books… rights
+##           &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
+##  1          105 &quot;Persu… Auste…               68 en       &lt;NA&gt;             Publi…
+##  2          121 &quot;North… Auste…               68 en       Gothic Fiction   Publi…
+##  3          141 &quot;Mansf… Auste…               68 en       &lt;NA&gt;             Publi…
+##  4          158 &quot;Emma&quot;  Auste…               68 en       &lt;NA&gt;             Publi…
+##  5          161 &quot;Sense… Auste…               68 en       &lt;NA&gt;             Publi…
+##  6          946 &quot;Lady … Auste…               68 en       &lt;NA&gt;             Publi…
+##  7         1212 &quot;Love … Auste…               68 en       &lt;NA&gt;             Publi…
+##  8         1342 &quot;Pride… Auste…               68 en       Best Books Ever… Publi…
+##  9        31100 &quot;The C… Auste…               68 en       &lt;NA&gt;             Publi…
+## 10        42078 &quot;The L… Auste…               68 en       &lt;NA&gt;             Publi…
 ## # … with 1 more variable: has_text &lt;lgl&gt;</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># or with a regular expression</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">library</span>(stringr)</span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">gutenberg_works</span>(<span class="kw">str_detect</span>(author, <span class="st">&quot;Austen&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or with a regular expression</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gutenberg_works</span>(<span class="fu">str_detect</span>(author, <span class="st">&quot;Austen&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 13 x 8
-##    gutenberg_id title author gutenberg_autho… language gutenberg_books… rights
-##           &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
-##  1          105 &quot;Per… Auste…               68 en       &lt;NA&gt;             Publi…
-##  2          121 &quot;Nor… Auste…               68 en       Gothic Fiction   Publi…
-##  3          141 &quot;Man… Auste…               68 en       &lt;NA&gt;             Publi…
-##  4          158 &quot;Emm… Auste…               68 en       &lt;NA&gt;             Publi…
-##  5          161 &quot;Sen… Auste…               68 en       &lt;NA&gt;             Publi…
-##  6          946 &quot;Lad… Auste…               68 en       &lt;NA&gt;             Publi…
-##  7         1212 &quot;Lov… Auste…               68 en       &lt;NA&gt;             Publi…
-##  8         1342 &quot;Pri… Auste…               68 en       Best Books Ever… Publi…
-##  9        17797 &quot;Mem… Auste…             7603 en       &lt;NA&gt;             Publi…
-## 10        31100 &quot;The… Auste…               68 en       &lt;NA&gt;             Publi…
-## 11        33513 &quot;The… Auste…            36446 en       &lt;NA&gt;             Publi…
-## 12        39897 &quot;Dis… Layar…            40288 en       &lt;NA&gt;             Publi…
-## 13        42078 &quot;The… Auste…               68 en       &lt;NA&gt;             Publi…
+##    gutenberg_id title   author gutenberg_autho… language gutenberg_books… rights
+##           &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt; 
+##  1          105 &quot;Persu… Auste…               68 en       &lt;NA&gt;             Publi…
+##  2          121 &quot;North… Auste…               68 en       Gothic Fiction   Publi…
+##  3          141 &quot;Mansf… Auste…               68 en       &lt;NA&gt;             Publi…
+##  4          158 &quot;Emma&quot;  Auste…               68 en       &lt;NA&gt;             Publi…
+##  5          161 &quot;Sense… Auste…               68 en       &lt;NA&gt;             Publi…
+##  6          946 &quot;Lady … Auste…               68 en       &lt;NA&gt;             Publi…
+##  7         1212 &quot;Love … Auste…               68 en       &lt;NA&gt;             Publi…
+##  8         1342 &quot;Pride… Auste…               68 en       Best Books Ever… Publi…
+##  9        17797 &quot;Memoi… Auste…             7603 en       &lt;NA&gt;             Publi…
+## 10        31100 &quot;The C… Auste…               68 en       &lt;NA&gt;             Publi…
+## 11        33513 &quot;The F… Auste…            36446 en       &lt;NA&gt;             Publi…
+## 12        39897 &quot;Disco… Layar…            40288 en       &lt;NA&gt;             Publi…
+## 13        42078 &quot;The L… Auste…               68 en       &lt;NA&gt;             Publi…
 ## # … with 1 more variable: has_text &lt;lgl&gt;</code></pre>
 <p>The meta-data currently in the package was last updated on <strong>05 May 2016</strong>.</p>
 </div>
 <div id="downloading-books-by-id" class="section level3">
 <h3>Downloading books by ID</h3>
 <p>The function <code>gutenberg_download()</code> downloads one or more works from Project Gutenberg based on their ID. For example, we earlier saw that “Wuthering Heights” has ID 768 (see <a href="https://www.gutenberg.org/ebooks/768">the URL here</a>), so <code>gutenberg_download(768)</code> downloads this text.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>f768 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;768.zip&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;gutenbergr&quot;</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>wuthering_heights &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="dv">768</span>,</span>
-<span id="cb11-3"><a href="#cb11-3"></a>                                        <span class="dt">files =</span> f768,</span>
-<span id="cb11-4"><a href="#cb11-4"></a>                                        <span class="dt">mirror =</span> <span class="st">&quot;http://aleph.gutenberg.org&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>wuthering_heights &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="dv">768</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>wuthering_heights</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>f768 <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;768.zip&quot;</span>, <span class="at">package =</span> <span class="st">&quot;gutenbergr&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>wuthering_heights <span class="ot">&lt;-</span> <span class="fu">gutenberg_download</span>(<span class="dv">768</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">files =</span> f768,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">mirror =</span> <span class="st">&quot;http://aleph.gutenberg.org&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>wuthering_heights <span class="ot">&lt;-</span> <span class="fu">gutenberg_download</span>(<span class="dv">768</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>wuthering_heights</span></code></pre></div>
 <pre><code>## # A tibble: 12,085 x 2
 ##    gutenberg_id text                                                            
 ##           &lt;int&gt; &lt;chr&gt;                                                           
@@ -443,13 +482,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## # … with 12,075 more rows</code></pre>
 <p>Notice it is returned as a tbl_df (a type of data frame) including two variables: <code>gutenberg_id</code> (useful if multiple books are returned), and a character vector of the text, one row per line. Notice that the header and footer added by Project Gutenberg (visible <a href="http://www.gutenberg.org/files/768/768.txt">here</a>) have been stripped away.</p>
 <p>Provide a vector of IDs to download multiple books. For example, to download Jane Eyre (book <a href="https://www.gutenberg.org/ebooks/1260">1260</a>) along with Wuthering Heights, do:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>f1260 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;1260.zip&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;gutenbergr&quot;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>books &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="kw">c</span>(<span class="dv">768</span>, <span class="dv">1260</span>),</span>
-<span id="cb15-3"><a href="#cb15-3"></a>                            <span class="dt">meta_fields =</span> <span class="st">&quot;title&quot;</span>,</span>
-<span id="cb15-4"><a href="#cb15-4"></a>                            <span class="dt">files =</span> <span class="kw">c</span>(f768, f1260),</span>
-<span id="cb15-5"><a href="#cb15-5"></a>                            <span class="dt">mirror =</span> <span class="st">&quot;http://aleph.gutenberg.org&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>books &lt;-<span class="st"> </span><span class="kw">gutenberg_download</span>(<span class="kw">c</span>(<span class="dv">768</span>, <span class="dv">1260</span>), <span class="dt">meta_fields =</span> <span class="st">&quot;title&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>books</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>f1260 <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;1260.zip&quot;</span>, <span class="at">package =</span> <span class="st">&quot;gutenbergr&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>books <span class="ot">&lt;-</span> <span class="fu">gutenberg_download</span>(<span class="fu">c</span>(<span class="dv">768</span>, <span class="dv">1260</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">meta_fields =</span> <span class="st">&quot;title&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">files =</span> <span class="fu">c</span>(f768, f1260),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">mirror =</span> <span class="st">&quot;http://aleph.gutenberg.org&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>books <span class="ot">&lt;-</span> <span class="fu">gutenberg_download</span>(<span class="fu">c</span>(<span class="dv">768</span>, <span class="dv">1260</span>), <span class="at">meta_fields =</span> <span class="st">&quot;title&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>books</span></code></pre></div>
 <pre><code>## # A tibble: 32,744 x 3
 ##    gutenberg_id text                                                title       
 ##           &lt;int&gt; &lt;chr&gt;                                               &lt;chr&gt;       
@@ -465,8 +504,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 10          768 &quot;situation so completely removed from the stir of … Wuthering H…
 ## # … with 32,734 more rows</code></pre>
 <p>Notice that the <code>meta_fields</code> argument allows us to add one or more additional fields from the <code>gutenberg_metadata</code> to the downloaded text, such as title or author.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>books <span class="op">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span><span class="kw">count</span>(title)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>books <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(title)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   title                           n
 ##   &lt;chr&gt;                       &lt;int&gt;
@@ -476,7 +515,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="other-meta-datasets" class="section level3">
 <h3>Other meta-datasets</h3>
 <p>You may want to select books based on information other than their title or author, such as their genre or topic. <code>gutenberg_subjects</code> contains pairings of works with Library of Congress subjects and topics. “lcc” means <a href="https://www.loc.gov/catdir/cpso/lcco/">Library of Congress Classification</a>, while “lcsh” means <a href="https://id.loc.gov/authorities/subjects.html">Library of Congress subject headings</a>:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>gutenberg_subjects</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gutenberg_subjects</span></code></pre></div>
 <pre><code>## # A tibble: 140,173 x 3
 ##    gutenberg_id subject_type subject                                            
 ##           &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;                                              
@@ -492,8 +531,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 10            3 lcsh         United States -- Foreign relations -- 1961-1963    
 ## # … with 140,163 more rows</code></pre>
 <p>This is useful for extracting texts from a particular topic or genre, such as detective stories, or a particular character, such as Sherlock Holmes. The <code>gutenberg_id</code> column can then be used to download these texts or to link with other metadata.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>gutenberg_subjects <span class="op">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">filter</span>(subject <span class="op">==</span><span class="st"> &quot;Detective and mystery stories&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>gutenberg_subjects <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(subject <span class="sc">==</span> <span class="st">&quot;Detective and mystery stories&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 521 x 3
 ##    gutenberg_id subject_type subject                      
 ##           &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;                        
@@ -508,8 +547,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ##  9          905 lcsh         Detective and mystery stories
 ## 10         1155 lcsh         Detective and mystery stories
 ## # … with 511 more rows</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>gutenberg_subjects <span class="op">%&gt;%</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="st">  </span><span class="kw">filter</span>(<span class="kw">grepl</span>(<span class="st">&quot;Holmes, Sherlock&quot;</span>, subject))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gutenberg_subjects <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;Holmes, Sherlock&quot;</span>, subject))</span></code></pre></div>
 <pre><code>## # A tibble: 47 x 3
 ##    gutenberg_id subject_type subject                                           
 ##           &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;                                             
@@ -525,7 +564,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 10         2346 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction
 ## # … with 37 more rows</code></pre>
 <p><code>gutenberg_authors</code> contains information about each author, such as aliases and birth/death year:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>gutenberg_authors</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gutenberg_authors</span></code></pre></div>
 <pre><code>## # A tibble: 16,236 x 7
 ##    gutenberg_author… author    alias  birthdate deathdate wikipedia   aliases   
 ##                &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;int&gt;     &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;     
@@ -544,12 +583,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="analysis" class="section level3">
 <h3>Analysis</h3>
 <p>What’s next after retrieving a book’s text? Well, having the book as a data frame is especially useful for working with the <a href="https://github.com/juliasilge/tidytext">tidytext</a> package for text analysis.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">library</span>(tidytext)</span>
-<span id="cb29-2"><a href="#cb29-2"></a></span>
-<span id="cb29-3"><a href="#cb29-3"></a>words &lt;-<span class="st"> </span>books <span class="op">%&gt;%</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(word, text)</span>
-<span id="cb29-5"><a href="#cb29-5"></a></span>
-<span id="cb29-6"><a href="#cb29-6"></a>words</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> books <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>words</span></code></pre></div>
 <pre><code>## # A tibble: 305,532 x 3
 ##    gutenberg_id title             word     
 ##           &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;    
@@ -564,11 +603,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ##  9          768 Wuthering Heights returned 
 ## 10          768 Wuthering Heights from     
 ## # … with 305,522 more rows</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>word_counts &lt;-<span class="st"> </span>words <span class="op">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="st">  </span><span class="kw">anti_join</span>(stop_words, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a><span class="st">  </span><span class="kw">count</span>(title, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb31-4"><a href="#cb31-4"></a></span>
-<span id="cb31-5"><a href="#cb31-5"></a>word_counts</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>word_counts <span class="ot">&lt;-</span> words <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">&quot;word&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(title, word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>word_counts</span></code></pre></div>
 <pre><code>## # A tibble: 21,200 x 3
 ##    title                       word           n
 ##    &lt;chr&gt;                       &lt;chr&gt;      &lt;int&gt;

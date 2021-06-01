@@ -155,6 +155,7 @@ gutenberg_download <- function(gutenberg_id, mirror = NULL, strip = TRUE,
 #'
 #' @examples
 #'
+#' \dontrun{
 #' library(dplyr)
 #' book <- gutenberg_works(title == "Pride and Prejudice") %>%
 #'   gutenberg_download(strip = FALSE)
@@ -166,6 +167,7 @@ gutenberg_download <- function(gutenberg_id, mirror = NULL, strip = TRUE,
 #'
 #' head(text_stripped, 10)
 #' tail(text_stripped, 10)
+#' }
 #'
 #' @param text A character vector with lines of a book
 #'

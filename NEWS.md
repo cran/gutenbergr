@@ -1,3 +1,7 @@
+# gutenbergr 0.2.1
+
+* Removed one remaining example (for gutenberg_strip) that wasn't wrapped in dontrun{} (necessary so as not to fail if CRAN can't connect to Project Gutenberg)
+
 # gutenbergr 0.2.0
 
 * Changed to comply with CRAN policies for API packages. Tests that do connect to Project Gutenberg are skipped on CRAN, and are supplemented with tests that mock the connection.
