@@ -1,20 +1,25 @@
-## ----echo = FALSE-------------------------------------------------------------
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+## ----setup, include = FALSE---------------------------------------------------
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE
+)
 
-## -----------------------------------------------------------------------------
+## ----basics-------------------------------------------------------------------
 library(gutenbergr)
+library(dplyr)
 gutenberg_metadata
 
-## -----------------------------------------------------------------------------
-library(dplyr)
+## ----filter-------------------------------------------------------------------
 
 gutenberg_metadata %>%
-  filter(title == "Wuthering Heights")
+  filter(title == "Persuasion")
 
-## -----------------------------------------------------------------------------
+## ----works--------------------------------------------------------------------
 gutenberg_works()
 
-## -----------------------------------------------------------------------------
+## ----Austen-------------------------------------------------------------------
 gutenberg_works(author == "Austen, Jane")
 
 # or with a regular expression
@@ -22,49 +27,51 @@ gutenberg_works(author == "Austen, Jane")
 library(stringr)
 gutenberg_works(str_detect(author, "Austen"))
 
-## -----------------------------------------------------------------------------
-f768 <- system.file("extdata", "768.zip", package = "gutenbergr")
-wuthering_heights <- gutenberg_download(768,
-                                        files = f768,
-                                        mirror = "http://aleph.gutenberg.org")
+## ----load 1 file, echo=FALSE--------------------------------------------------
+f105 <- system.file("extdata", "105.zip", package = "gutenbergr")
+persuasion <- gutenberg_download(105,
+  files = f105,
+  mirror = "http://aleph.gutenberg.org"
+)
 
-## ----eval = FALSE-------------------------------------------------------------
-#  wuthering_heights <- gutenberg_download(768)
+## ----load 1 from web, eval = FALSE--------------------------------------------
+#  persuasion <- gutenberg_download(105)
 
-## -----------------------------------------------------------------------------
-wuthering_heights
+## ----display persuasion-------------------------------------------------------
+persuasion
 
-## -----------------------------------------------------------------------------
-f1260 <- system.file("extdata", "1260.zip", package = "gutenbergr")
-books <- gutenberg_download(c(768, 1260),
-                            meta_fields = "title",
-                            files = c(f768, f1260),
-                            mirror = "http://aleph.gutenberg.org")
+## ----load 2 from file, echo=FALSE---------------------------------------------
+f109 <- system.file("extdata", "109.zip", package = "gutenbergr")
+books <- gutenberg_download(c(109, 105),
+  meta_fields = "title",
+  files = c(f109, f105),
+  mirror = "http://aleph.gutenberg.org"
+)
 
-## ---- eval = FALSE------------------------------------------------------------
-#  books <- gutenberg_download(c(768, 1260), meta_fields = "title")
+## ----load 2 from web, eval = FALSE--------------------------------------------
+#  books <- gutenberg_download(c(109, 105), meta_fields = "title")
 
-## -----------------------------------------------------------------------------
+## ----display books------------------------------------------------------------
 books
 
-## -----------------------------------------------------------------------------
+## ----count books--------------------------------------------------------------
 books %>%
   count(title)
 
-## -----------------------------------------------------------------------------
+## ----subjects-----------------------------------------------------------------
 gutenberg_subjects
 
-## -----------------------------------------------------------------------------
+## ----filter subjects----------------------------------------------------------
 gutenberg_subjects %>%
   filter(subject == "Detective and mystery stories")
 
 gutenberg_subjects %>%
   filter(grepl("Holmes, Sherlock", subject))
 
-## -----------------------------------------------------------------------------
+## ----authors------------------------------------------------------------------
 gutenberg_authors
 
-## -----------------------------------------------------------------------------
+## ----tidytext-----------------------------------------------------------------
 library(tidytext)
 
 words <- books %>%

@@ -1,6 +1,12 @@
-# gutenbergr 0.2.1
+# gutenbergr 0.2.3 (2022-12-13)
 
-* Removed one remaining example (for gutenberg_strip) that wasn't wrapped in dontrun{} (necessary so as not to fail if CRAN can't connect to Project Gutenberg)
+* minor patches for broken urls to comply with CRAN checks.
+
+# gutenbergr 0.2.2 (2022-12-03)
+
+* Updated metadata (#32, #29)
+* minor bug fixes and improvements, including removing broken url and updating documentation to comply with CRAN roxygen2 requirements (#30, #31, #35, #28).
+* Changed maintainer (#30)
 
 # gutenbergr 0.2.0
 
