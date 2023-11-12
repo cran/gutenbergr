@@ -39,8 +39,8 @@
 #'   \item{At most one distinct field for each title/author pair}
 #' }
 #'
-#' @examples
-#'\donttest{
+#' @examplesIf interactive()
+#' \donttest{
 #' library(dplyr)
 #'
 #' gutenberg_works()
@@ -61,7 +61,7 @@
 #'
 #' gutenberg_works(languages = c("en", "es"), only_languages = FALSE) %>%
 #'   count(language, sort = TRUE)
-#'}
+#' }
 #' @export
 gutenberg_works <- function(..., languages = "en",
                             only_text = TRUE,
