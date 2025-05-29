@@ -1,13 +1,11 @@
 #' Gutenberg metadata about each work
 #'
-#' Selected fields of metadata about each of the Project Gutenberg works. These
-#' were collected using the gitenberg Python package, particularly the
-#' \code{pg_rdf_to_json} function.
+#' Selected fields of metadata about each of the Project Gutenberg works.
 #'
 #' @details To find the date on which this metadata was last updated, run
-#'   \code{attr(gutenberg_metadata, "date_updated")}.
+#'   `attr(gutenberg_metadata, "date_updated")`.
 #'
-#' @format A tbl_df (see tibble or dplyr) with one row for each work in Project
+#' @format A [tibble::tibble()] with one row for each work in Project
 #'   Gutenberg and the following columns:
 #' \describe{
 #'   \item{gutenberg_id}{Numeric ID, used to retrieve works from
@@ -25,9 +23,9 @@
 #'   (the most common by far), "Copyrighted. Read the copyright notice inside
 #'   this book for details.", or "None"}
 #'   \item{has_text}{Whether there is a file containing digits followed by
-#'   \code{.txt} in Project Gutenberg for this record (as opposed to, for
+#'   `.txt` in Project Gutenberg for this record (as opposed to, for
 #'   example, audiobooks). If not, cannot be retrieved with
-#'   \code{\link{gutenberg_download}}}
+#'   [gutenberg_download()]}
 #' }
 #'
 #' @examplesIf interactive()
@@ -37,24 +35,20 @@
 #'
 #' gutenberg_metadata
 #'
-#' gutenberg_metadata %>%
+#' gutenberg_metadata |>
 #'   count(author, sort = TRUE)
 #'
 #' # look for Shakespeare, excluding collections (containing "Works") and
 #' # translations
-#' shakespeare_metadata <- gutenberg_metadata %>%
+#' shakespeare_metadata <- gutenberg_metadata |>
 #'   filter(
 #'     author == "Shakespeare, William",
 #'     language == "en",
 #'     !str_detect(title, "Works"),
 #'     has_text,
 #'     !str_detect(rights, "Copyright")
-#'   ) %>%
+#'   ) |>
 #'   distinct(title)
-#'
-#' \donttest{
-#' shakespeare_works <- gutenberg_download(shakespeare_metadata$gutenberg_id)
-#' }
 #'
 #' # note that the gutenberg_works() function filters for English
 #' # non-copyrighted works and does de-duplication by default:
@@ -101,17 +95,17 @@
 #' library(dplyr)
 #' library(stringr)
 #'
-#' gutenberg_subjects %>%
-#'   filter(subject_type == "lcsh") %>%
+#' gutenberg_subjects |>
+#'   filter(subject_type == "lcsh") |>
 #'   count(subject, sort = TRUE)
 #'
-#' sherlock_holmes_subjects <- gutenberg_subjects %>%
+#' sherlock_holmes_subjects <- gutenberg_subjects |>
 #'   filter(str_detect(subject, "Holmes, Sherlock"))
 #'
 #' sherlock_holmes_subjects
 #'
-#' sherlock_holmes_metadata <- gutenberg_works() %>%
-#'   filter(author == "Doyle, Arthur Conan") %>%
+#' sherlock_holmes_metadata <- gutenberg_works() |>
+#'   filter(author == "Doyle, Arthur Conan") |>
 #'   semi_join(sherlock_holmes_subjects, by = "gutenberg_id")
 #'
 #' sherlock_holmes_metadata
@@ -188,3 +182,23 @@
 #'
 #' @seealso \link{gutenberg_metadata}, \link{gutenberg_subjects}
 "gutenberg_languages"
+
+
+#' Sample Book Downloads
+#'
+#' A tibble of book text for two sample books, generated using
+#' [gutenberg_download()].
+#'
+#' @details This code was used to download the books:
+#' `gutenberg_download(c(109, 105), meta_fields = c("title", "author"))`
+#'
+#' @format A tbl_df (from [tibble::tibble()]) with one row for each
+#' line of text from each book, with columns:
+#' \describe{
+#'   \item{gutenberg_id}{Unique identifier for the work that can
+#'   be used to join with the \link{gutenberg_metadata} dataset.}
+#'   \item{text}{A character vector of lines of text.}
+#'   \item{title}{The title of this work.}
+#'   \item{author}{The author of this work.}
+#' }
+"sample_books"

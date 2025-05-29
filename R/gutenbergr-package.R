@@ -2,9 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom dplyr count
-#' @importFrom dplyr distinct
-#' @importFrom dplyr filter
-#' @importFrom magrittr %>%
+#' @importFrom readMDTable read_md_table
+#' @importFrom rlang %||%
 ## usethis namespace: end
 NULL

@@ -1,30 +1,40 @@
 Package: gutenbergr
-Type: Package
 Title: Download and Process Public Domain Works from Project Gutenberg
-Version: 0.2.4
-Authors@R: c(person(given = "Myfanwy", family = "Johnston", role = c("aut", "cre"), 
-    email = "mrowlan1@gmail.com"),
-    person(given = "David", family = "Robinson", email = "admiral.david@gmail.com", role = c("aut", "cph")))
+Version: 0.3.0
+Authors@R: c(
+    person("Jon", "Harmon", , "jonthegeek@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-4781-4346")),
+    person("Myfanwy", "Johnston", , "mrowlan1@gmail.com", role = "aut"),
+    person("Jordan", "Bradford", , "jrdnbradford@gmail.com", role = "aut",
+           comment = c(ORCID = "0009-0000-8570-3474")),
+    person("David", "Robinson", , "admiral.david@gmail.com", role = c("aut", "cph"))
+  )
 Description: Download and process public domain works in the Project
-    Gutenberg collection <https://www.gutenberg.org/>. Includes metadata for
-    all Project Gutenberg works, so that they can be searched and retrieved.
+    Gutenberg collection <https://www.gutenberg.org/>. Includes metadata
+    for all Project Gutenberg works, so that they can be searched and
+    retrieved.
 License: GPL-2
-LazyData: TRUE
-Maintainer: Myfanwy Johnston <mrowlan1@gmail.com>
 URL: https://docs.ropensci.org/gutenbergr/,
         https://github.com/ropensci/gutenbergr
 BugReports: https://github.com/ropensci/gutenbergr/issues
+Depends: R (>= 4.1)
+Imports: cli, dplyr, glue, purrr, readMDTable, readr, rlang, stringr,
+        tibble, urltools
+Suggests: curl, knitr, rmarkdown, testthat (>= 3.0.0), tidyr, tidytext,
+        withr
 VignetteBuilder: knitr
-Depends: R (>= 2.10)
-Imports: cli, dplyr, glue, lazyeval, magrittr, purrr, readr, stringr,
-        urltools
-RoxygenNote: 7.2.3
 Encoding: UTF-8
-Suggests: curl, ggplot2, knitr, rmarkdown, testthat, tidyr, tidytext
 Language: en-US
+LazyData: TRUE
+LazyDataCompression: xz
+RoxygenNote: 7.3.2
+Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-11-11 23:05:31 UTC; myfanwy
-Author: Myfanwy Johnston [aut, cre],
+Packaged: 2025-05-29 12:45:54 UTC; jonth
+Author: Jon Harmon [aut, cre] (ORCID: <https://orcid.org/0000-0003-4781-4346>),
+  Myfanwy Johnston [aut],
+  Jordan Bradford [aut] (ORCID: <https://orcid.org/0009-0000-8570-3474>),
   David Robinson [aut, cph]
+Maintainer: Jon Harmon <jonthegeek@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-11-12 12:03:21 UTC
+Date/Publication: 2025-05-29 19:40:20 UTC
