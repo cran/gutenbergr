@@ -48,8 +48,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +61,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -376,20 +377,20 @@ downloading.</p>
 about each work, pairing Gutenberg ID with title, author, language,
 etc:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>gutenberg_metadata</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 79,491 × 8</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 80,840 × 8</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              </span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt;  1            1 &quot;The De… Jeffe…                1638 en       Politics/American …</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;  2            2 &quot;The Un… Unite…                   1 en       Politics/American …</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;  3            3 &quot;John F… Kenne…                1666 en       Browsing: History …</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;  4            4 &quot;Lincol… Linco…                   3 en       US Civil War/Brows…</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;  3            3 &quot;John F… Kenne…                1666 en       Category: Essays, …</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;  4            4 &quot;Lincol… Linco…                   3 en       US Civil War/Categ…</span></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;  5            5 &quot;The Un… Unite…                   1 en       United States/Poli…</span></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;  6            6 &quot;Give M… Henry…                   4 en       American Revolutio…</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;  7            7 &quot;The Ma… &lt;NA&gt;                    NA en       Browsing: History …</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  8            8 &quot;Abraha… Linco…                   3 en       US Civil War/Brows…</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  9            9 &quot;Abraha… Linco…                   3 en       US Civil War/Brows…</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;  7            7 &quot;The Ma… &lt;NA&gt;                    NA en       Category: History …</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  8            8 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  9            9 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…</span></span>
 <span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 10           10 &quot;The Ki… &lt;NA&gt;                    NA en       Banned Books List …</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 79,481 more rows</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 80,830 more rows</span></span>
 <span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</span></span></code></pre></div>
 <p>For example, you could find the Gutenberg ID(s) of Jane Austen’s
 <em>Persuasion</em> by doing:</p>
@@ -398,69 +399,70 @@ etc:</p>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 8</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;   gutenberg_id title     author gutenberg_author_id language gutenberg_bookshelf</span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;          &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              </span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 1          105 Persuasi… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 2        22963 Persuasi… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 3        36777 Persuasi… Auste…                  68 fr       FR Littérature/Bro…</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 1          105 Persuasi… Auste…                  68 en       &quot;Category: Novels/…</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 2        22963 Persuasi… Auste…                  68 en       &quot;&quot;                 </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 3        36777 Persuasi… Auste…                  68 fr       &quot;FR Littérature/Ca…</span></span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</span></span></code></pre></div>
 <p>In many analyses, you may want to filter just for English works,
 avoid duplicates, and include only books that have text that can be
 downloaded. The <code>gutenberg_works()</code> function does this
 pre-filtering:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">gutenberg_works</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 61,693 × 8</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 62,530 × 8</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              </span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;  1            1 &quot;The De… Jeffe…                1638 en       Politics/American …</span></span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;  2            2 &quot;The Un… Unite…                   1 en       Politics/American …</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;  3            3 &quot;John F… Kenne…                1666 en       Browsing: History …</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;  4            4 &quot;Lincol… Linco…                   3 en       US Civil War/Brows…</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;  3            3 &quot;John F… Kenne…                1666 en       Category: Essays, …</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;  4            4 &quot;Lincol… Linco…                   3 en       US Civil War/Categ…</span></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;  5            5 &quot;The Un… Unite…                   1 en       United States/Poli…</span></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;  6            6 &quot;Give M… Henry…                   4 en       American Revolutio…</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;  7            7 &quot;The Ma… &lt;NA&gt;                    NA en       Browsing: History …</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;  8            8 &quot;Abraha… Linco…                   3 en       US Civil War/Brows…</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  9            9 &quot;Abraha… Linco…                   3 en       US Civil War/Brows…</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;  7            7 &quot;The Ma… &lt;NA&gt;                    NA en       Category: History …</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;  8            8 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  9            9 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…</span></span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 10           10 &quot;The Ki… &lt;NA&gt;                    NA en       Banned Books List …</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 61,683 more rows</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 62,520 more rows</span></span>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</span></span></code></pre></div>
 <p>It also allows you to perform filtering as an argument:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">gutenberg_works</span>(author <span class="sc">==</span> <span class="st">&quot;Austen, Jane&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 13 × 8</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 14 × 8</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              </span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  1          105 &quot;Persua… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  2          121 &quot;Northa… Auste…                  68 en       Gothic Fiction/Bro…</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  3          141 &quot;Mansfi… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  4          158 &quot;Emma&quot;   Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  5          161 &quot;Sense … Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  6          946 &quot;Lady S… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;  7         1212 &quot;Love a… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  8         1342 &quot;Pride … Auste…                  68 en       Best Books Ever Li…</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  9        31100 &quot;The Co… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 10        37431 &quot;Pride … Auste…                  68 en       Browsing: Literatu…</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 11        42078 &quot;The Le… Auste…                  68 en       Browsing: Biograph…</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 12        63569 &quot;The Wa… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 13        74233 &quot;Fragme… Auste…                  68 en       Browsing: Literatu…</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># or with a regular expression</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="fu">gutenberg_works</span>(<span class="fu">str_detect</span>(author, <span class="st">&quot;Austen&quot;</span>))</span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; # A tibble: 23 × 8</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              </span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;  1          105 Persuas… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt;  2          121 Northan… Auste…                  68 en       Gothic Fiction/Bro…</span></span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt;  3          141 Mansfie… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt;  4          158 Emma     Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt;  5          161 Sense a… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt;  6          946 Lady Su… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt;  7         1212 Love an… Auste…                  68 en       Browsing: Culture/…</span></span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt;  8         1342 Pride a… Auste…                  68 en       Best Books Ever Li…</span></span>
-<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt;  9        17797 Memoir … Auste…                7603 en       Browsing: Biograph…</span></span>
-<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; 10        22536 Jane Au… Auste…               25392 en       Browsing: Biograph…</span></span>
-<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; # ℹ 13 more rows</span></span>
-<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</span></span></code></pre></div>
-<p>The meta-data currently in the package was last updated on <strong>27
-May 2025</strong>.</p>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  1          105 &quot;Persua… Auste…                  68 en       &quot;Category: Novels/…</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  2          121 &quot;Northa… Auste…                  68 en       &quot;Gothic Fiction/Ca…</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  3          141 &quot;Mansfi… Auste…                  68 en       &quot;Category: Novels/…</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  4          158 &quot;Emma&quot;   Auste…                  68 en       &quot;Category: Novels/…</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  5          161 &quot;Sense … Auste…                  68 en       &quot;Category: Romance…</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  6          946 &quot;Lady S… Auste…                  68 en       &quot;Category: Novels/…</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;  7         1212 &quot;Love a… Auste…                  68 en       &quot;Category: Romance…</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  8         1342 &quot;Pride … Auste…                  68 en       &quot;Best Books Ever L…</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  9        31100 &quot;The Co… Auste…                  68 en       &quot;Category: Romance…</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 10        37431 &quot;Pride … Auste…                  68 en       &quot;Category: Plays/F…</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 11        42078 &quot;The Le… Auste…                  68 en       &quot;Category: Biograp…</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 12        63569 &quot;The Wa… Auste…                  68 en       &quot;Category: Novels/…</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 13        74233 &quot;Fragme… Auste…                  68 en       &quot;Category: Novels/…</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 14        77117 &quot;The Wa… Auste…                  68 en       &quot;&quot;                 </span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co"># or with a regular expression</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="fu">gutenberg_works</span>(<span class="fu">str_detect</span>(author, <span class="st">&quot;Austen&quot;</span>))</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; # A tibble: 24 × 8</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              </span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt;  1          105 Persuas… Auste…                  68 en       Category: Novels/C…</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt;  2          121 Northan… Auste…                  68 en       Gothic Fiction/Cat…</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt;  3          141 Mansfie… Auste…                  68 en       Category: Novels/C…</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt;  4          158 Emma     Auste…                  68 en       Category: Novels/C…</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt;  5          161 Sense a… Auste…                  68 en       Category: Romance/…</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt;  6          946 Lady Su… Auste…                  68 en       Category: Novels/C…</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt;  7         1212 Love an… Auste…                  68 en       Category: Romance/…</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt;  8         1342 Pride a… Auste…                  68 en       Best Books Ever Li…</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt;  9        17797 Memoir … Auste…                7603 en       Category: Biograph…</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; 10        22536 Jane Au… Auste…               25392 en       Category: Biograph…</span></span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; # ℹ 14 more rows</span></span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</span></span></code></pre></div>
+<p>The meta-data currently in the package was last updated on <strong>14
+December 2025</strong>.</p>
 </div>
 <div id="downloading-books-by-id" class="section level3">
 <h3>Downloading books by ID</h3>
@@ -527,7 +529,7 @@ of Congress subjects and topics. “lcc” means <a href="https://www.loc.gov/ca
 Classification</a>, while “lcsh” means <a href="https://id.loc.gov/authorities/subjects.html">Library of Congress
 subject headings</a>:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>gutenberg_subjects</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 255,312 × 3</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 260,104 × 3</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id subject_type subject                                            </span></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;fct&gt;        &lt;chr&gt;                                              </span></span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt;  1            1 lcsh         United States -- History -- Revolution, 1775-1783 …</span></span>
@@ -540,14 +542,14 @@ subject headings</a>:</p>
 <span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt;  8            2 lcc          KF                                                 </span></span>
 <span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt;  9            3 lcsh         United States -- Foreign relations -- 1961-1963    </span></span>
 <span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; 10            3 lcsh         Presidents -- United States -- Inaugural addresses </span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 255,302 more rows</span></span></code></pre></div>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 260,094 more rows</span></span></code></pre></div>
 <p>This is useful for extracting texts from a particular topic or genre,
 such as detective stories, or a particular character, such as Sherlock
 Holmes. The <code>gutenberg_id</code> column can then be used to
 download these texts or to link with other metadata.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>gutenberg_subjects <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">filter</span>(subject <span class="sc">==</span> <span class="st">&quot;Detective and mystery stories&quot;</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 939 × 3</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 967 × 3</span></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id subject_type subject                      </span></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;fct&gt;        &lt;chr&gt;                        </span></span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt;  1          170 lcsh         Detective and mystery stories</span></span>
@@ -560,11 +562,11 @@ download these texts or to link with other metadata.</p>
 <span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt;  8          863 lcsh         Detective and mystery stories</span></span>
 <span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt;  9          905 lcsh         Detective and mystery stories</span></span>
 <span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt; 10         1155 lcsh         Detective and mystery stories</span></span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 929 more rows</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 957 more rows</span></span>
 <span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a></span>
 <span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>gutenberg_subjects <span class="sc">|&gt;</span></span>
 <span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;Holmes, Sherlock&quot;</span>, subject))</span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="co">#&gt; # A tibble: 57 × 3</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="co">#&gt; # A tibble: 59 × 3</span></span>
 <span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="co">#&gt;    gutenberg_id subject_type subject                                           </span></span>
 <span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co">#&gt;           &lt;int&gt; &lt;fct&gt;        &lt;chr&gt;                                             </span></span>
 <span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co">#&gt;  1          108 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction</span></span>
@@ -577,11 +579,11 @@ download these texts or to link with other metadata.</p>
 <span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a><span class="co">#&gt;  8         2344 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction</span></span>
 <span id="cb12-31"><a href="#cb12-31" tabindex="-1"></a><span class="co">#&gt;  9         2345 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction</span></span>
 <span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a><span class="co">#&gt; 10         2346 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction</span></span>
-<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a><span class="co">#&gt; # ℹ 47 more rows</span></span></code></pre></div>
+<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a><span class="co">#&gt; # ℹ 49 more rows</span></span></code></pre></div>
 <p><code>gutenberg_authors</code> contains information about each
 author, such as aliases and birth/death year:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>gutenberg_authors</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 26,077 × 7</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 26,480 × 7</span></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt;    gutenberg_author_id author        alias birthdate deathdate wikipedia aliases</span></span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt;                  &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  </span></span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt;  1                   1 United States U.S.…        NA        NA https://… U.S.A. </span></span>
@@ -594,7 +596,7 @@ author, such as aliases and birth/death year:</p>
 <span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt;  8                  10 Barrie, J. M… &lt;NA&gt;       1860      1937 https://… Barrie…</span></span>
 <span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt;  9                  11 Church of Je… &lt;NA&gt;         NA        NA https://… &lt;NA&gt;   </span></span>
 <span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt; 10                  12 Smith, Josep… Smit…      1805      1844 https://… Smith,…</span></span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 26,067 more rows</span></span></code></pre></div>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 26,470 more rows</span></span></code></pre></div>
 </div>
 <div id="analysis" class="section level3">
 <h3>Analysis</h3>

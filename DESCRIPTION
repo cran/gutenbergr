@@ -1,6 +1,6 @@
 Package: gutenbergr
 Title: Download and Process Public Domain Works from Project Gutenberg
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person("Jon", "Harmon", , "jonthegeek@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4781-4346")),
@@ -27,14 +27,14 @@ Encoding: UTF-8
 Language: en-US
 LazyData: TRUE
 LazyDataCompression: xz
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2025-05-29 12:45:54 UTC; jonth
+Packaged: 2025-12-14 17:10:08 UTC; jonth
 Author: Jon Harmon [aut, cre] (ORCID: <https://orcid.org/0000-0003-4781-4346>),
   Myfanwy Johnston [aut],
   Jordan Bradford [aut] (ORCID: <https://orcid.org/0009-0000-8570-3474>),
   David Robinson [aut, cph]
 Maintainer: Jon Harmon <jonthegeek@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-05-29 19:40:20 UTC
+Date/Publication: 2025-12-14 17:30:02 UTC

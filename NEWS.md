@@ -1,3 +1,9 @@
+# gutenbergr 0.3.1
+
+* The `lanuage` column in `gutenberg_languages` is now properly merged with the `language` column (#94).
+* The default mirror is now determined from the available mirrors in `gutenberg_get_all_mirrors()`, rather than trying to be clever and find a local mirror.
+* All datasets have been updated as of 2025-12-14.
+
 # gutenbergr 0.3.0
 
 * `gutenberg_download()` tries the `.txt` version of files when the `.zip` is unavailable (@jrdnbradford, #55, #70).
@@ -33,7 +39,7 @@
 
 * Make compatible with tidyr v1.0.0
 * data_frame is deprecated, use tibble (thanks @evanodell for #21)
-* ROpenSci updates to README (thanks @maelle for #23)
+* rOpenSci updates to README (thanks @maelle for #23)
 
 # gutenbergr 0.1.4
 
@@ -58,7 +64,7 @@
 * Added `all_languages` and `only_languages` arguments to `gutenberg_works`, allowing fine-grained control of languages. (For example, "either English or French" or "both English and French")
 * Changed get_gutenberg_mirror to use xml2 directly, in order to handle AppVeyor
 * Removed use of data() in `gutenberg_works`, since it slows down `gutenberg_works` about 2X
-* Various documentation, vignette, and README adjustments in response to ROpenSci feedback.
+* Various documentation, vignette, and README adjustments in response to rOpenSci feedback.
 * Added AppVeyor for Windows continuous integration
 * Added code coverage information through codecov.io and covr, along with tests to improve coverage
 

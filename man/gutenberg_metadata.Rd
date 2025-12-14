@@ -13,7 +13,7 @@ Project Gutenberg}
 \item{title}{Title}
 \item{author}{Author, if a single one given. Given as last name
 first (e.g. "Doyle, Arthur Conan")}
-\item{author_id}{Project Gutenberg author ID}
+\item{gutenberg_author_id}{Project Gutenberg author ID}
 \item{language}{Language ISO 639 code, separated by / if multiple. Two
 letter code if one exists, otherwise three letter. See
 \url{https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes}}
@@ -39,7 +39,7 @@ To find the date on which this metadata was last updated, run
 \code{attr(gutenberg_metadata, "date_updated")}.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 
 library(dplyr)
 library(stringr)
