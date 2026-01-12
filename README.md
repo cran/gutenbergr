@@ -13,16 +13,22 @@ peer-review](https://badges.ropensci.org/41_status.svg)](https://github.com/rope
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/ropensci/gutenbergr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/gutenbergr/actions/workflows/R-CMD-check.yaml)
+[![Integration
+Tests](https://github.com/ropensci/gutenbergr/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/ropensci/gutenbergr/actions/workflows/integration-tests.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/gutenbergr/graph/badge.svg)](https://app.codecov.io/gh/ropensci/gutenbergr)
+[![Monthly
+Downloads](https://cranlogs.r-pkg.org/badges/gutenbergr)](https://CRAN.R-project.org/package=gutenbergr)
+[![Total
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/gutenbergr)](https://CRAN.R-project.org/package=gutenbergr)
 <!-- badges: end -->
 
 Download and process public domain works from the [Project
 Gutenberg](https://www.gutenberg.org/) collection. Includes
 
 - A function `gutenberg_download()` that downloads one or more works
-  from Project Gutenberg by ID: e.g., `gutenberg_download(84)` downloads
-  the text of Frankenstein.
+  from Project Gutenberg by ID: for instance, `gutenberg_download(84)`
+  downloads the text of “Frankenstein”.
 - Metadata for all Project Gutenberg works as R datasets, so that they
   can be searched and filtered:
   - `gutenberg_metadata` contains information about each work, pairing
@@ -82,7 +88,7 @@ gutenberg_works() |>
 #> 1          768 Wuthering Heights Brontë, Emily                 405 en      
 #>   gutenberg_bookshelf                                                                rights has_text
 #>   <chr>                                                                              <fct>  <lgl>   
-#> 1 Best Books Ever Listings/Gothic Fiction/Movie Books/Browsing: Literature/Browsing… Publi… TRUE
+#> 1 Best Books Ever Listings/Gothic Fiction/Movie Books/Category: Novels/Category: Cl… Publi… TRUE
 
 # or just:
 gutenberg_works(title == "Wuthering Heights")
@@ -92,7 +98,7 @@ gutenberg_works(title == "Wuthering Heights")
 #> 1          768 Wuthering Heights Brontë, Emily                 405 en      
 #>   gutenberg_bookshelf                                                                rights has_text
 #>   <chr>                                                                              <fct>  <lgl>   
-#> 1 Best Books Ever Listings/Gothic Fiction/Movie Books/Browsing: Literature/Browsing… Publi… TRUE
+#> 1 Best Books Ever Listings/Gothic Fiction/Movie Books/Category: Novels/Category: Cl… Publi… TRUE
 ```
 
 Since we see that it has `gutenberg_id` 768, we can download it with the
@@ -216,8 +222,8 @@ See the
 [data-raw](https://github.com/ropensci/gutenbergr/tree/master/data-raw)
 directory for the scripts that generate these datasets. As of now, these
 were generated from [the Project Gutenberg
-catalog](https://www.gutenberg.org/ebooks/offline_catalogs.html) on **27
-May 2025**.
+catalog](https://www.gutenberg.org/ebooks/offline_catalogs.html) on **11
+January 2026**.
 
 ### Do you respect the rules regarding robot access to Project Gutenberg?
 
@@ -228,13 +234,13 @@ to the best of our ability. Namely:
 - Project Gutenberg allows harvesting with automated software using
   [this list of
   links](https://www.gutenberg.org/robot/harvest?filetypes%5B%5D=html).
-  The gutenbergr package visits that page once to find the recommended
-  mirror for the user’s location.
-- We retrieve the book text directly from that mirror using links in the
-  same format. For example, Frankenstein (book 84) is retrieved from
-  `https://www.gutenberg.lib.md.us/8/84/84.zip`.
-- We give priority to retrieving the `.zip` file to minimize bandwidth
-  on the mirror. `.txt` files are only retrieved if there is no `.zip`.
+- We retrieve the book text directly from a default or user-specified
+  mirror using links in the same format. For example, “Frankenstein”
+  (book 84) is retrieved from `https://aleph.pglaf.org/8/84/84-0.txt`.
+- We give priority to retrieving `.zip` files to minimize bandwidth on
+  the mirror. `.txt` files are only retrieved if there is no `.zip`.
+- gutenbergr supports both session and persistent caching of downloaded
+  files to prevent redownloading.
 
 Still, this package is *not* the right way to download the entire
 Project Gutenberg corpus (or all from a particular language). For that,
@@ -245,11 +251,13 @@ work, or works for a particular author or topic. See their [Terms of
 Service](https://www.gutenberg.org/policy/terms_of_use.html) for
 details.
 
-## Code of Conduct
+## Contributing
 
-Please note that the gutenbergr project is released with a [Contributor
-Code of
-Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+See
+[`CONTRIBUTING.md`](https://docs.ropensci.org/gutenbergr/CONTRIBUTING.html).
+
+Please note that this package is released with a [Contributor Code of
+Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
+project, you agree to abide by its terms.
 
 [![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org/)

@@ -1,6 +1,13 @@
+# gutenbergr 0.4.0
+
+* gutenbergr now caches works downloaded with `gutenberg_download()`. They are saved in a temporary directory by default, but they can be configured to persist in your OS-specific application cache directory across sessions (@jrdnbradford, #112, #123).
+* A new family of `gutenberg_cache_*` functions are now available. These allow users to list and delete items in their cache, as well as update their cache type (@jrdnbradford, #112, #123).
+* The package index reference in the pkgdown site now separates functions and data by type (@jrdnbradford, #114).
+* Jordan Bradford (@jrdnbradford) is now the primary maintainer of this package. Thanks for taking the lead, Jordan! (#95).
+
 # gutenbergr 0.3.1
 
-* The `lanuage` column in `gutenberg_languages` is now properly merged with the `language` column (#94).
+* The `language` column in `gutenberg_languages` is now properly merged with the `language` column (#94).
 * The default mirror is now determined from the available mirrors in `gutenberg_get_all_mirrors()`, rather than trying to be clever and find a local mirror.
 * All datasets have been updated as of 2025-12-14.
 

@@ -12,18 +12,19 @@ Download and process public domain works in the Project Gutenberg collection \ur
 Useful links:
 \itemize{
   \item \url{https://docs.ropensci.org/gutenbergr/}
+  \item \url{https://ropensci.r-universe.dev/gutenbergr}
   \item \url{https://github.com/ropensci/gutenbergr}
   \item Report bugs at \url{https://github.com/ropensci/gutenbergr/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Jon Harmon \email{jonthegeek@gmail.com} (\href{https://orcid.org/0000-0003-4781-4346}{ORCID})
+\strong{Maintainer}: Jordan Bradford \email{jrdnbradford@gmail.com} (\href{https://orcid.org/0009-0000-8570-3474}{ORCID})
 
 Authors:
 \itemize{
+  \item Jon Harmon \email{jonthegeek@gmail.com} (\href{https://orcid.org/0000-0003-4781-4346}{ORCID})
   \item Myfanwy Johnston \email{mrowlan1@gmail.com}
-  \item Jordan Bradford \email{jrdnbradford@gmail.com} (\href{https://orcid.org/0009-0000-8570-3474}{ORCID})
   \item David Robinson \email{admiral.david@gmail.com} [copyright holder]
 }
 

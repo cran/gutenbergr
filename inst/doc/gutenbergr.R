@@ -6,7 +6,7 @@ knitr::opts_chunk$set(
   warning = FALSE
 )
 
-## ----packages-used------------------------------------------------------------
+## ----packages-used, include = FALSE-------------------------------------------
 library(gutenbergr)
 library(dplyr)
 library(stringr)

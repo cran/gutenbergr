@@ -1,12 +1,12 @@
 Package: gutenbergr
 Title: Download and Process Public Domain Works from Project Gutenberg
-Version: 0.3.1
+Version: 0.4.0
 Authors@R: c(
-    person("Jon", "Harmon", , "jonthegeek@gmail.com", role = c("aut", "cre"),
+    person("Jordan", "Bradford", , "jrdnbradford@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0000-8570-3474")),
+    person("Jon", "Harmon", , "jonthegeek@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0003-4781-4346")),
     person("Myfanwy", "Johnston", , "mrowlan1@gmail.com", role = "aut"),
-    person("Jordan", "Bradford", , "jrdnbradford@gmail.com", role = "aut",
-           comment = c(ORCID = "0009-0000-8570-3474")),
     person("David", "Robinson", , "admiral.david@gmail.com", role = c("aut", "cph"))
   )
 Description: Download and process public domain works in the Project
@@ -15,13 +15,15 @@ Description: Download and process public domain works in the Project
     retrieved.
 License: GPL-2
 URL: https://docs.ropensci.org/gutenbergr/,
+        https://ropensci.r-universe.dev/gutenbergr,
         https://github.com/ropensci/gutenbergr
 BugReports: https://github.com/ropensci/gutenbergr/issues
 Depends: R (>= 4.1)
 Imports: cli, dplyr, glue, purrr, readMDTable, readr, rlang, stringr,
         tibble, urltools
-Suggests: curl, knitr, rmarkdown, testthat (>= 3.0.0), tidyr, tidytext,
-        withr
+Suggests: curl, devtools (>= 2.4.5), fs (>= 1.6.6), here (>= 1.0.2),
+        knitr, lubridate (>= 1.9.4), rmarkdown, testthat (>= 3.0.0),
+        tidyr, tidytext, usethis (>= 3.2.1), withr, xml2 (>= 1.5.1)
 VignetteBuilder: knitr
 Encoding: UTF-8
 Language: en-US
@@ -30,11 +32,12 @@ LazyDataCompression: xz
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2025-12-14 17:10:08 UTC; jonth
-Author: Jon Harmon [aut, cre] (ORCID: <https://orcid.org/0000-0003-4781-4346>),
+Packaged: 2026-01-11 03:42:50 UTC; bradfojb
+Author: Jordan Bradford [aut, cre] (ORCID:
+    <https://orcid.org/0009-0000-8570-3474>),
+  Jon Harmon [aut] (ORCID: <https://orcid.org/0000-0003-4781-4346>),
   Myfanwy Johnston [aut],
-  Jordan Bradford [aut] (ORCID: <https://orcid.org/0009-0000-8570-3474>),
   David Robinson [aut, cph]
-Maintainer: Jon Harmon <jonthegeek@gmail.com>
+Maintainer: Jordan Bradford <jrdnbradford@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-12-14 17:30:02 UTC
+Date/Publication: 2026-01-12 06:10:33 UTC
