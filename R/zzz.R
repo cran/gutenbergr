@@ -4,15 +4,17 @@
 }
 
 .onAttach <- function(libname, pkgname) {
+  if (!interactive()) {
+    return(invisible())
+  }
+
   path <- gutenberg_cache_dir()
   type <- getOption("gutenbergr_cache_type", "session")
-
   type_str <- if (type == "session") {
     "session (temporary)"
   } else {
     "persistent"
   }
-
   packageStartupMessage(
     "gutenbergr: using ",
     type_str,
@@ -20,6 +22,5 @@
     "  cache directory: ",
     path
   )
-
   invisible()
 }
