@@ -383,7 +383,7 @@ downloading functionality.</p>
 <p>The <code>gutenberg_metadata</code> dataset contains information
 about each work in the Project Gutenberg collection:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>gutenberg_metadata</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 81,633 × 8
+<pre><code>#&gt; # A tibble: 82,028 × 8
 #&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf
 #&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              
 #&gt;  1            1 &quot;The De… Jeffe…                1638 en       Politics/American …
@@ -396,7 +396,7 @@ about each work in the Project Gutenberg collection:</p>
 #&gt;  8            8 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…
 #&gt;  9            9 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…
 #&gt; 10           10 &quot;The Ki… &lt;NA&gt;                    NA en       Banned Books List …
-#&gt; # ℹ 81,623 more rows
+#&gt; # ℹ 82,018 more rows
 #&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</code></pre>
 <p>You can filter this to find specific works:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>gutenberg_metadata <span class="sc">|&gt;</span></span>
@@ -408,8 +408,8 @@ about each work in the Project Gutenberg collection:</p>
 #&gt; 2        22963 Persuasi… Auste…                  68 en       &quot;&quot;                 
 #&gt; 3        36777 Persuasi… Auste…                  68 fr       &quot;FR Littérature/Ca…
 #&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</code></pre>
-<p>The metadata currently in the package was last updated on <strong>13
-March 2026</strong>.</p>
+<p>The metadata currently in the package was last updated on <strong>02
+May 2026</strong>.</p>
 </div>
 <div id="gutenberg_works" class="section level3">
 <h3><code>gutenberg_works()</code></h3>
@@ -417,7 +417,7 @@ March 2026</strong>.</p>
 duplicates, and include only books with downloadable text. The
 <code>gutenberg_works()</code> function does this automatically:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">gutenberg_works</span>()</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 63,090 × 8
+<pre><code>#&gt; # A tibble: 63,359 × 8
 #&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf
 #&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              
 #&gt;  1            1 &quot;The De… Jeffe…                1638 en       Politics/American …
@@ -430,7 +430,7 @@ duplicates, and include only books with downloadable text. The
 #&gt;  8            8 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…
 #&gt;  9            9 &quot;Abraha… Linco…                   3 en       US Civil War/Categ…
 #&gt; 10           10 &quot;The Ki… &lt;NA&gt;                    NA en       Banned Books List …
-#&gt; # ℹ 63,080 more rows
+#&gt; # ℹ 63,349 more rows
 #&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</code></pre>
 <p>You can also filter directly within the function:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">gutenberg_works</span>(author <span class="sc">==</span> <span class="st">&quot;Austen, Jane&quot;</span>)</span></code></pre></div>
@@ -471,7 +471,7 @@ duplicates, and include only books with downloadable text. The
 #&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Multiple conditions</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">gutenberg_works</span>(author <span class="sc">==</span> <span class="st">&quot;Dickens, Charles&quot;</span>, has_text <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 93 × 8
+<pre><code>#&gt; # A tibble: 94 × 8
 #&gt;    gutenberg_id title    author gutenberg_author_id language gutenberg_bookshelf
 #&gt;           &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;fct&gt;    &lt;chr&gt;              
 #&gt;  1           46 &quot;A Chri… Dicke…                  37 en       Children&#39;s Literat…
@@ -484,7 +484,7 @@ duplicates, and include only books with downloadable text. The
 #&gt;  8          653 &quot;The Ch… Dicke…                  37 en       Category: Novels/C…
 #&gt;  9          675 &quot;Americ… Dicke…                  37 en       Category: Travel W…
 #&gt; 10          676 &quot;The Ba… Dicke…                  37 en       Christmas/Category…
-#&gt; # ℹ 83 more rows
+#&gt; # ℹ 84 more rows
 #&gt; # ℹ 2 more variables: rights &lt;fct&gt;, has_text &lt;lgl&gt;</code></pre>
 </div>
 <div id="gutenberg_subjects" class="section level3">
@@ -492,7 +492,7 @@ duplicates, and include only books with downloadable text. The
 <p>The <code>gutenberg_subjects</code> dataset pairs works with Library
 of Congress classifications and subject headings:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>gutenberg_subjects</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 262,666 × 3
+<pre><code>#&gt; # A tibble: 264,166 × 3
 #&gt;    gutenberg_id subject_type subject                                            
 #&gt;           &lt;int&gt; &lt;fct&gt;        &lt;chr&gt;                                              
 #&gt;  1            1 lcsh         United States -- History -- Revolution, 1775-1783 …
@@ -505,12 +505,12 @@ of Congress classifications and subject headings:</p>
 #&gt;  8            2 lcc          KF                                                 
 #&gt;  9            3 lcsh         United States -- Foreign relations -- 1961-1963    
 #&gt; 10            3 lcsh         Presidents -- United States -- Inaugural addresses 
-#&gt; # ℹ 262,656 more rows</code></pre>
+#&gt; # ℹ 264,156 more rows</code></pre>
 <p>This is useful for finding works by genre or topic:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Find detective stories</span></span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>gutenberg_subjects <span class="sc">|&gt;</span></span>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">filter</span>(subject <span class="sc">==</span> <span class="st">&quot;Detective and mystery stories&quot;</span>)</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 986 × 3
+<pre><code>#&gt; # A tibble: 995 × 3
 #&gt;    gutenberg_id subject_type subject                      
 #&gt;           &lt;int&gt; &lt;fct&gt;        &lt;chr&gt;                        
 #&gt;  1          170 lcsh         Detective and mystery stories
@@ -523,11 +523,11 @@ of Congress classifications and subject headings:</p>
 #&gt;  8          863 lcsh         Detective and mystery stories
 #&gt;  9          905 lcsh         Detective and mystery stories
 #&gt; 10         1155 lcsh         Detective and mystery stories
-#&gt; # ℹ 976 more rows</code></pre>
+#&gt; # ℹ 985 more rows</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># Find Sherlock Holmes stories</span></span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>gutenberg_subjects <span class="sc">|&gt;</span></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;Holmes, Sherlock&quot;</span>, subject))</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 59 × 3
+<pre><code>#&gt; # A tibble: 60 × 3
 #&gt;    gutenberg_id subject_type subject                                           
 #&gt;           &lt;int&gt; &lt;fct&gt;        &lt;chr&gt;                                             
 #&gt;  1          108 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction
@@ -540,7 +540,7 @@ of Congress classifications and subject headings:</p>
 #&gt;  8         2344 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction
 #&gt;  9         2345 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction
 #&gt; 10         2346 lcsh         Holmes, Sherlock (Fictitious character) -- Fiction
-#&gt; # ℹ 49 more rows</code></pre>
+#&gt; # ℹ 50 more rows</code></pre>
 <p>You can join this with <code>gutenberg_works()</code> to download
 books by subject:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># Get IDs of detective stories</span></span>
@@ -560,7 +560,7 @@ books by subject:</p>
 <p>The <code>gutenberg_authors</code> dataset contains author
 information including aliases and birth/death years:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>gutenberg_authors</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 26,714 × 7
+<pre><code>#&gt; # A tibble: 26,821 × 7
 #&gt;    gutenberg_author_id author        alias birthdate deathdate wikipedia aliases
 #&gt;                  &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  
 #&gt;  1                   1 United States U.S.…        NA        NA https://… U.S.A. 
@@ -573,7 +573,7 @@ information including aliases and birth/death years:</p>
 #&gt;  8                  10 Barrie, J. M… &lt;NA&gt;       1860      1937 https://… Barrie…
 #&gt;  9                  11 Church of Je… &lt;NA&gt;         NA        NA https://… &lt;NA&gt;   
 #&gt; 10                  12 Smith, Josep… Smit…      1805      1844 https://… Smith,…
-#&gt; # ℹ 26,704 more rows</code></pre>
+#&gt; # ℹ 26,811 more rows</code></pre>
 <p>This can be useful for filtering by author characteristics:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># Find works by 19th century authors</span></span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>nineteenth_century_gutenberg_authors <span class="ot">&lt;-</span> gutenberg_authors <span class="sc">|&gt;</span></span>
